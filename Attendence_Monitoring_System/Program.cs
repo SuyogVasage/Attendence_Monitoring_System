@@ -1,4 +1,13 @@
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<Attendence_Monitoring_SystemContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AppConnStr"));
+});
+
+builder.Services.AddScoped<IService<User, int>, UserService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -22,6 +31,10 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=User}/{action=Login}/{id?}");
 
 app.Run();
+
+
+
+//dotnet ef dbcontext scaffold "Data Source=SVASAGE-LAP-047\SQLEXPRESS;Initial Catalog=Attendence_Monitoring_System;Integrated Security=SSPI" Microsoft.EntityFrameworkCore.SqlServer -o Models

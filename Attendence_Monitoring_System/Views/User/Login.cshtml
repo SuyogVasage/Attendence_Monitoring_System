@@ -1,0 +1,83 @@
+﻿@model Attendence_Monitoring_System.Models.User
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+<div class="element">
+<div class="text-center">
+    <h2 class="display-4" style="font-family:verdana;">EAMS</h2>
+    <h7><b>Employee Attendance Monitoring System</b></h7>
+    <br>
+</div>
+<style>
+        body {
+            background-image:
+            url("/Images/back_112.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+    </style>
+<div class="form-center" >
+    <div class="col-md-4">
+            <form asp-action="Login">
+                <br>
+                <div class="form-group">
+                    <input asp-for=Email class="form-control" placeholder=Email />
+                </div>
+                <br>
+                <div class="form-group">
+                    <input asp-for=Password type="password" class="form-control" placeholder=Password id="myInput"/>
+                    <input type="checkbox" onclick="myFunction()">Show Password
+                    <script>
+                    function myFunction() {
+                    var x = document.getElementById("myInput");
+                    if (x.type === "password") {
+                          x.type = "text";
+                       } else {
+                          x.type = "password";
+                       }
+                       }
+                    </script>
+                </div>
+                <br>
+                <div class="form-center">
+                 <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-primary" />
+                 </div>
+                 </div>
+            </form>
+    </div>
+</div>
+</div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+.form-center {
+display:flex;
+justify-content: center;
+}
+.container{
+  position:relative;
+  width:90vw;
+  height: 90vh;
+  margin: auto;
+}
+
+.element{
+  position:absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  margin: auto;
+  background-image:
+            url("/Images/back_111.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+  width: 35vw; height: 50vh;
+}
+</style>

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "2hLcIzd0jUO0bS7mBFXahIYkSqgfPHfc8RsN8o+9fpA=",
+  "Hash": "Iky3y9HsBiHP6zhki+EuzRlred4TSknp86cYB6c1HU8=",
   "Source": "Attendence_Monitoring_System",
   "BasePath": "_content/Attendence_Monitoring_System",
   "Mode": "Default",
@@ -83,6 +83,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\Coditas\\source\\repos\\Attendence_Monitoring_System\\Attendence_Monitoring_System\\wwwroot\\Images\\back_111.jpg",
+      "SourceId": "Attendence_Monitoring_System",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Coditas\\source\\repos\\Attendence_Monitoring_System\\Attendence_Monitoring_System\\wwwroot\\",
+      "BasePath": "_content/Attendence_Monitoring_System",
+      "RelativePath": "Images/back_111.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\back_111.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Coditas\\source\\repos\\Attendence_Monitoring_System\\Attendence_Monitoring_System\\wwwroot\\Images\\back_112.jpg",
+      "SourceId": "Attendence_Monitoring_System",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Coditas\\source\\repos\\Attendence_Monitoring_System\\Attendence_Monitoring_System\\wwwroot\\",
+      "BasePath": "_content/Attendence_Monitoring_System",
+      "RelativePath": "Images/back_112.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\back_112.jpg"
     },
     {
       "Identity": "C:\\Users\\Coditas\\source\\repos\\Attendence_Monitoring_System\\Attendence_Monitoring_System\\wwwroot\\Images\\dhoni.jpg",
