@@ -11,15 +11,6 @@
     <h7><b>Employee Attendance Monitoring System</b></h7>
     <br>
 </div>
-<style>
-        body {
-            background-image:
-            url("/Images/back_112.jpg");
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: 100% 100%;
-        }
-    </style>
 <div class="form-center" >
     <div class="col-md-4">
             <form asp-action="Login">
@@ -29,7 +20,7 @@
                 </div>
                 <br>
                 <div class="form-group">
-                    <input asp-for=Password type="password" class="form-control" placeholder=Password id="myInput"/>
+                    <input asp-for=Password class="form-control" placeholder=Password id="myInput" type="password" />
                     <input type="checkbox" onclick="myFunction()">Show Password
                     <script>
                     function myFunction() {
@@ -42,6 +33,8 @@
                        }
                     </script>
                 </div>
+                <br>
+                <h7 class="form-center" style="background-color:tomato;">@ViewBag.Message</h7>
                 <br>
                 <div class="form-center">
                  <div class="form-group">
@@ -58,6 +51,13 @@
 }
 
 <style>
+body {
+   background-image:
+   url("/Images/back_112.jpg");
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   background-size: 100% 100%;
+}
 .form-center {
 display:flex;
 justify-content: center;
@@ -78,6 +78,6 @@ justify-content: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: 100% 100%;
-  width: 35vw; height: 50vh;
+  width: 35vw; height: 55vh;
 }
 </style>

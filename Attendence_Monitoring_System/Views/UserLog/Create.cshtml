@@ -1,0 +1,190 @@
+﻿@model Attendence_Monitoring_System.Models.UserLog
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            
+            </form>
+        
+    </div>
+</div>
+<br>
+<br>
+<div>
+    
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<html>
+    <head>
+        <title>JavaScript</title>
+
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="stopwatch">
+            00:00:00
+        </div>
+        @*<form asp-action="Create">*@
+        <ul id="buttons">
+            <li><button onclick="startTimer()" id="IN"  name="cIN">Check In</button></li>
+            <li><button onclick="stopTimer()" id="OUT" name="cOUT">Check Out</button></li>
+
+            @*<li><button onclick="resetTimer()">Reset</button></li>*@
+        </ul>
+        @*</form>*@
+        <a asp-action="Login" asp-controller="User" class="button1" style="background-color:yellow;">Back</a>
+        <br>
+        <br>
+        <a asp-action="Login" asp-controller="User" class="button2" style="background-color:yellow;">History</a>
+        <br>
+        <br>
+        <a asp-action="Login" asp-controller="User" class="button3" style="background-color:yellow;">Profile</a>
+        <script src="main.js"></script>
+    </body>
+</html>
+
+<style>
+    body {
+   background-image:
+   url("/Images/back_112.jpg");
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   background-size: 100% 100%;
+}
+button {
+    width: 100px;
+    height: 30px;
+    border: 3px white;
+    border-radius: 50px;
+    background: #202020;
+    color: white;
+    cursor: pointer;
+    outline: none;
+}
+.button1 {
+    position: absolute;
+    top: 300px;
+    left: 670px;
+}
+.button2 {
+    position: absolute;
+    top: 250px;
+    left: 600px;
+}
+.button3 {
+    position: absolute;
+    top: 250px;
+    left: 710px;
+}
+
+#stopwatch {
+    font-size: 50px;
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+}
+#buttons {
+    position: absolute;
+    top: 25%;
+    left: 48.4%;
+    transform: translate(-51.6%, -45%);
+}
+#buttons li {
+    display: inline;
+    padding-left: 10px;
+}
+</style>
+
+<script>
+    const timer = document.getElementById('stopwatch');
+
+var hr = 0;
+var min = 0;
+var sec = 0;
+var stoptime = true;
+
+function startTimer() {
+    debugger;
+  if (stoptime == true) {
+        stoptime = false;
+        timerCycle();
+         }
+
+        //var status= "IN";
+        //var obj{
+        //    status = status;
+        //}
+
+        //subform(obj);
+
+            $.ajax({
+                url: "/UserLog/Create",
+                data: {'Status':"IN"},
+                type: "POST",
+            });
+        
+       
+}
+function stopTimer() {
+  if (stoptime == false) {
+    stoptime = true;
+  }
+
+         $.ajax({
+            url: "/UserLog/Create",
+            data: {'Status':"OUT"},
+            type: "POST",
+            });
+}
+
+function timerCycle() {
+    debugger;
+    if (stoptime == false) {
+    sec = parseInt(sec);
+    min = parseInt(min);
+    hr = parseInt(hr);
+
+    sec = sec + 1;
+
+    if (sec == 60) {
+      min = min + 1;
+      sec = 0;
+    }
+    if (min == 60) {
+      hr = hr + 1;
+      min = 0;
+      sec = 0;
+    }
+
+    if (sec < 10 || sec == 0) {
+      sec = '0' + sec;
+    }
+    if (min < 10 || min == 0) {
+      min = '0' + min;
+    }
+    if (hr < 10 || hr == 0) {
+      hr = '0' + hr;
+    }
+
+    timer.innerHTML = hr + ':' + min + ':' + sec;
+
+    setTimeout("timerCycle()", 1000);
+  }
+}
+
+function resetTimer() {
+    timer.innerHTML = '00:00:00';
+}
+</script>
