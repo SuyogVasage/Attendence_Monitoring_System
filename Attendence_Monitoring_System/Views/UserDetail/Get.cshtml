@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Attendence_Monitoring_System.Models.UserDetail>
+
+    @{
+        ViewData["Title"] = "Get";
+    }
+    <br>
+    <img src="@ViewBag.photo"                            
+    class="square"                            
+    height="140" width="140"
+    asp-append-version="true" /> 
+
+    <table class="table">
+        <tbody>
+            <tr>
+            <td>
+                </td>
+                </tr>
+            <tr>
+            <td>
+            <h7><b>Personal Details</b></h7>
+                </td>
+                </tr>
+                    
+            @foreach (var item in Model)
+            {
+                @if(item.SectionId == 1)
+                {
+                    <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KeyName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value)
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+            }
+            <tr>
+            <td>
+                </td>
+                </tr>
+            <tr>
+            <td>
+            <h7><b>Professional Details</b></h7>
+                </td>
+                </tr>
+            @foreach (var item in Model)
+            {
+                
+                @if(item.SectionId == 2)
+                {
+                    
+                    <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KeyName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value)
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+            }
+            <tr>
+            <td>
+                </td>
+                </tr>
+            <tr>
+            <td>
+            <h7><b>Educational Details</b></h7>
+                </td>
+                </tr>
+            @foreach (var item in Model)
+            {
+                
+                @if(item.SectionId == 3)
+                {
+                    <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KeyName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value)
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+            }
+ 
+        </tbody>
+    </table>
+    <form asp-action="Get">
+        <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+            </div>
+    </form>
+    <br>
+    <a asp-action="Create" asp-controller="UserLog" class="btn btn-primary">Back</a>
+    
+<style>
+    body {
+   background-image:
+   url("/Images/back_112.jpg");
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   background-size: 100% 100%;
+}
+</style>

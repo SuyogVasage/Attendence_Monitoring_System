@@ -15,6 +15,14 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Coditas\source\repos\Attendence_Monitoring_System\Attendence_Monitoring_System
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Coditas/source/repos/Attendence_Monitoring_System/Attendence_Monitoring_System/Views/AttendenceLog/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXR0ZW5kZW5jZUxvZ1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Coditas/source/repos/Attendence_Monitoring_System/Attendence_Monitoring_System/Views/AttendenceLog/Get.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXR0ZW5kZW5jZUxvZ1xHZXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Coditas/source/repos/Attendence_Monitoring_System/Attendence_Monitoring_System/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -29,6 +37,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Coditas/source/repos/Attendence_Monitoring_System/Attendence_Monitoring_System/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Coditas/source/repos/Attendence_Monitoring_System/Attendence_Monitoring_System/Views/UserDetail/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckRldGFpbFxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Coditas/source/repos/Attendence_Monitoring_System/Attendence_Monitoring_System/Views/UserDetail/Get.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckRldGFpbFxHZXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Coditas/source/repos/Attendence_Monitoring_System/Attendence_Monitoring_System/Views/UserLog/Create.cshtml]

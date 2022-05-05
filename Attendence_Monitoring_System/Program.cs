@@ -9,6 +9,8 @@ builder.Services.AddDbContext<Attendence_Monitoring_SystemContext>(options =>
 
 builder.Services.AddScoped<IService<User, int>, UserService>();
 builder.Services.AddScoped<IService<UserLog, int>, UserLogService>();
+builder.Services.AddScoped<IService<UserDetail, int>, UserDetailService>();
+builder.Services.AddScoped<IService<AttendenceLog, int>, AttendenceLogService>();
 
 
 builder.Services.AddDistributedMemoryCache();

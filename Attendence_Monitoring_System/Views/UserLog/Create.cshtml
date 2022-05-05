@@ -5,26 +5,6 @@
 }
 
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
-            
-            </form>
-        
-    </div>
-</div>
-<br>
-<br>
-<div>
-    
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
-
 <html>
     <head>
         <title>JavaScript</title>
@@ -35,24 +15,103 @@
         <div id="stopwatch">
             00:00:00
         </div>
-        @*<form asp-action="Create">*@
         <ul id="buttons">
-            <li><button onclick="startTimer()" id="IN"  name="cIN">Check In</button></li>
-            <li><button onclick="stopTimer()" id="OUT" name="cOUT">Check Out</button></li>
+            <li><button onclick="startTimer()" id="IN">Check In</button></li>
+            <li><button onclick="stopTimer()" id="OUT">Check Out</button></li>
 
             @*<li><button onclick="resetTimer()">Reset</button></li>*@
         </ul>
-        @*</form>*@
         <a asp-action="Login" asp-controller="User" class="button1" style="background-color:yellow;">Back</a>
         <br>
         <br>
-        <a asp-action="Login" asp-controller="User" class="button2" style="background-color:yellow;">History</a>
+        <a asp-action="Get" asp-controller="AttendenceLog" class="button2" style="background-color:yellow;">History</a>
         <br>
         <br>
-        <a asp-action="Login" asp-controller="User" class="button3" style="background-color:yellow;">Profile</a>
+        <a asp-action="Get" asp-controller="UserDetail" class="button3" style="background-color:yellow;">Profile</a>
         <script src="main.js"></script>
     </body>
 </html>
+
+
+<script>
+    const timer = document.getElementById('stopwatch');
+
+var hr = 0;
+var min = 0;
+var sec = 0;
+var stoptime = true;
+
+function startTimer() {
+    debugger;
+  if (stoptime == true) {
+        stoptime = false;
+        timerCycle();
+         }
+
+            $.ajax({
+                url: "/UserLog/Create",
+                data: {'Status':"IN"},
+                type: "POST",
+            });
+
+      $('#IN').prop('disabled', true);  
+       
+}
+function stopTimer() {
+  if (stoptime == false) {
+    stoptime = true;
+  }
+
+         $.ajax({
+            url: "/UserLog/Create",
+            data: {'Status':"OUT"},
+            type: "POST",
+            });
+
+            $('#OUT').prop('disabled', true);
+            $('#IN').prop('disabled', false);
+}
+
+function timerCycle() {
+    debugger;
+    if (stoptime == false) {
+    sec = parseInt(sec);
+    min = parseInt(min);
+    hr = parseInt(hr);
+
+    sec = sec + 1;
+
+    if (sec == 60) {
+      min = min + 1;
+      sec = 0;
+    }
+    if (min == 60) {
+      hr = hr + 1;
+      min = 0;
+      sec = 0;
+    }
+
+    if (sec < 10 || sec == 0) {
+      sec = '0' + sec;
+    }
+    if (min < 10 || min == 0) {
+      min = '0' + min;
+    }
+    if (hr < 10 || hr == 0) {
+      hr = '0' + hr;
+    }
+
+    timer.innerHTML = hr + ':' + min + ':' + sec;
+
+    setTimeout("timerCycle()", 1000);
+  }
+}
+
+function resetTimer() {
+    timer.innerHTML = '00:00:00';
+}
+</script>
+
 
 <style>
     body {
@@ -106,85 +165,3 @@ button {
     padding-left: 10px;
 }
 </style>
-
-<script>
-    const timer = document.getElementById('stopwatch');
-
-var hr = 0;
-var min = 0;
-var sec = 0;
-var stoptime = true;
-
-function startTimer() {
-    debugger;
-  if (stoptime == true) {
-        stoptime = false;
-        timerCycle();
-         }
-
-        //var status= "IN";
-        //var obj{
-        //    status = status;
-        //}
-
-        //subform(obj);
-
-            $.ajax({
-                url: "/UserLog/Create",
-                data: {'Status':"IN"},
-                type: "POST",
-            });
-        
-       
-}
-function stopTimer() {
-  if (stoptime == false) {
-    stoptime = true;
-  }
-
-         $.ajax({
-            url: "/UserLog/Create",
-            data: {'Status':"OUT"},
-            type: "POST",
-            });
-}
-
-function timerCycle() {
-    debugger;
-    if (stoptime == false) {
-    sec = parseInt(sec);
-    min = parseInt(min);
-    hr = parseInt(hr);
-
-    sec = sec + 1;
-
-    if (sec == 60) {
-      min = min + 1;
-      sec = 0;
-    }
-    if (min == 60) {
-      hr = hr + 1;
-      min = 0;
-      sec = 0;
-    }
-
-    if (sec < 10 || sec == 0) {
-      sec = '0' + sec;
-    }
-    if (min < 10 || min == 0) {
-      min = '0' + min;
-    }
-    if (hr < 10 || hr == 0) {
-      hr = '0' + hr;
-    }
-
-    timer.innerHTML = hr + ':' + min + ':' + sec;
-
-    setTimeout("timerCycle()", 1000);
-  }
-}
-
-function resetTimer() {
-    timer.innerHTML = '00:00:00';
-}
-</script>

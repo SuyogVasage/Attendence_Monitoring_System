@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Attendence_Monitoring_System.Models.UserLog>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<a asp-action="Get" asp-controller="AttendenceLog" class="btn btn-primary">Back</a>
+
+
+<style>
+    body {
+   background-image:
+   url("/Images/back_112.jpg");
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   background-size: 100% 100%;
+}
+</style>

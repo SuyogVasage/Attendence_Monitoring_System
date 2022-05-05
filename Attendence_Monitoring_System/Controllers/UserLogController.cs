@@ -1,6 +1,4 @@
-﻿
-
-namespace Attendence_Monitoring_System.Controllers
+﻿namespace Attendence_Monitoring_System.Controllers
 {
     public class UserLogController : Controller
     {
