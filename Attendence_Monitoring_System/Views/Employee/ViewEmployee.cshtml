@@ -1,13 +1,22 @@
-﻿@model IEnumerable<Attendence_Monitoring_System.Models.UserDetail>
+﻿@model Attendence_Monitoring_System.Models.EmployeeList
 
-    @{
-        ViewData["Title"] = "Get";
-    }
-    <br>
-    <img src="@ViewBag.photo"                            
-    class="square"                            
-    height="140" width="140"
-    asp-append-version="true" /> 
+@{
+    ViewData["Title"] = "ViewEmployee";
+}
+
+<h2>View Employee</h2>
+<hr />
+<p>
+    <form asp-action="GetEmployee">
+                 <div class="form-group">
+                 <select asp-for="searchOption" class ="form-control" asp-items=ViewBag.Options></select>
+                 <br>
+                <input asp-for="searchString" class="form-control" />
+                <br>
+                  <input type="submit" value="Search"  class="btn btn-primary" />
+            </div>
+            </form>
+</p>
 
     <table class="table">
         <tbody>
@@ -21,7 +30,7 @@
                 </td>
                 </tr>
                     
-            @foreach (var item in Model)
+            @foreach (var item in Model.users)
             {
                 @if(item.SectionId == 1)
                 {
@@ -31,9 +40,6 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Value)
-                    </td>
-                    <td>
-                        | @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
                     </td>
                 </tr>
             }
@@ -47,7 +53,7 @@
             <h7><b>Professional Details</b></h7>
                 </td>
                 </tr>
-            @foreach (var item in Model)
+            @foreach (var item in Model.users)
             {
                 
                 @if(item.SectionId == 2)
@@ -59,9 +65,6 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Value)
-                    </td>
-                    <td>
-                        | @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
                     </td>
                 </tr>
             }
@@ -75,7 +78,7 @@
             <h7><b>Educational Details</b></h7>
                 </td>
                 </tr>
-            @foreach (var item in Model)
+            @foreach (var item in Model.users)
             {
                 
                 @if(item.SectionId == 3)
@@ -87,25 +90,26 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Value)
                     </td>
-                    <td>
-                        | @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                    </td>
                 </tr>
             }
             }
  
         </tbody>
     </table>
-   @* <form asp-action="Get">
-        <div class="form-group">
-                <input type="submit" value="Edit" class="btn btn-primary" />
-            </div>
-    </form>*@
+<div>
+    <br>
+    <a asp-action="Get" asp-controller="AttendenceLog" class="btn btn-primary">Attendance Details</a>
+    <br>
     <br>
     <a asp-action="Create" asp-controller="UserLog" class="btn btn-primary">Back</a>
-    
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
 <style>
-    body {
+body {
    background-image:
    url("/Images/back_112.jpg");
    background-repeat: no-repeat;

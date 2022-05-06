@@ -6,48 +6,108 @@
 
 <h1>Edit</h1>
 
-<h4>UserDetail</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="KeyName" class="control-label"></label>
-                <input asp-for="KeyName" class="form-control" />
+                <input asp-for="KeyName" class="form-control" readonly="readonly"/>
                 <span asp-validation-for="KeyName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Value" class="control-label"></label>
                 <input asp-for="Value" class="form-control" />
                 <span asp-validation-for="Value" class="text-danger"></span>
             </div>
+            <br>
             <div class="form-group">
-                <label asp-for="SectionId" class="control-label"></label>
-                <input asp-for="SectionId" class="form-control" />
-                <span asp-validation-for="SectionId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Update" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <br>
+    <a asp-action="Get" class="btn btn-primary">Back to Profile</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+@*@model IEnumerable<Attendence_Monitoring_System.Models.UserDetail>
+
+    @{
+        ViewData["Title"] = "Get";
+    }
+    <br>
+
+    
+              <h7><b>Personal Details</b></h7>
+            @foreach (var item in Model)
+            {
+                @if(item.SectionId == 1)
+                {
+                   
+                    <div class="form-group">
+                <label asp-for="modelItem => @item.KeyName" class="control-label"></label>
+                
+            </div>
+                    <div class="form-group">
+                        <input asp-for="modelItem => @item.Value" class="form-control" />
+                    </div>
+                
+            }
+            }
+            <br>
+            <h7><b>Professional Details</b></h7>
+            @foreach (var item in Model)
+            {
+                
+                @if(item.SectionId == 2)
+                {
+                    
+                    <div class="form-group">
+                <label asp-for="@item.KeyName" class="control-label"></label>
+                
+            </div>
+                    <div class="form-group">
+                        <input asp-for="modelItem => @item.Value" class="form-control" />
+                    </div>
+            }
+            }
+            <br>
+            <h7><b>Educational Details</b></h7>
+            @foreach (var item in Model)
+            {
+                @if(item.SectionId == 3)
+                {
+                    <div class="form-group">
+                <label asp-for="@item.KeyName" class="control-label"></label>
+                
+                   </div>
+                    <div class="form-group">
+                        <input asp-for="modelItem => @item.Value" class="form-control" />
+                    </div>
+                  }
+            }
+ 
+    <form asp-action="Edit">
+        <br>
+        <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+            </div>
+    </form>
+    <br>
+    <a asp-action="Create" asp-controller="UserLog" class="btn btn-primary">Back</a>
+    *@
+<style>
+    body {
+   background-image:
+   url("/Images/back_112.jpg");
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   background-size: 100% 100%;
+}
+</style>

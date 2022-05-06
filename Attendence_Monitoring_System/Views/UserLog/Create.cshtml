@@ -16,8 +16,8 @@
             00:00:00
         </div>
         <ul id="buttons">
-            <li><button onclick="startTimer()" id="IN">Check In</button></li>
-            <li><button onclick="stopTimer()" id="OUT">Check Out</button></li>
+            <li><button onclick="startTimer()" id="IN" class ="btn btn-primary">Check In</button></li>
+            <li><button onclick="stopTimer()" id="OUT" class ="btn btn-primary">Check Out</button></li>
 
             @*<li><button onclick="resetTimer()">Reset</button></li>*@
         </ul>
@@ -28,6 +28,9 @@
         <br>
         <br>
         <a asp-action="Get" asp-controller="UserDetail" class="button3" style="background-color:yellow;">Profile</a>
+        <br>
+        <br>
+        <a asp-action="GetEmployee" asp-controller="Employee" class="button4" style="background-color:yellow;">Employees</a>
         <script src="main.js"></script>
     </body>
 </html>
@@ -54,7 +57,8 @@ function startTimer() {
                 type: "POST",
             });
 
-      $('#IN').prop('disabled', true);  
+      $('#IN').prop('disabled', true);
+      //$('#IN').attr("button", "button11");
        
 }
 function stopTimer() {
@@ -126,11 +130,22 @@ button {
     height: 30px;
     border: 3px white;
     border-radius: 50px;
-    background: #202020;
-    color: white;
+   /* background: yellow;*/
+    color: black;
     cursor: pointer;
     outline: none;
 }
+/*button:focus {     
+    width: 100px;
+    height: 30px;
+    border: 3px white;
+    border-radius: 50px;
+    background: gray;
+    color: black;
+    cursor: pointer;
+    outline: none   
+}*/
+
 .button1 {
     position: absolute;
     top: 300px;
@@ -146,7 +161,11 @@ button {
     top: 250px;
     left: 710px;
 }
-
+.button4 {
+    position: absolute;
+    top: 350px;
+    left: 650px;
+}
 #stopwatch {
     font-size: 50px;
     position: absolute;

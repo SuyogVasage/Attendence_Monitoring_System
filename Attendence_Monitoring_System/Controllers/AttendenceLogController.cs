@@ -11,39 +11,9 @@ namespace Attendence_Monitoring_System.Controllers
             this.attendenceLogServ = attendenceLogServ;
             this.userLogserv = userLogserv;
         }
-        public IActionResult Create()
-        {
-            int userId = 1002;
-            var res = userLogserv.GetAsync().Result.Where(x=>x.UserId == userId);
-            var res1 = res.Where(x => x.Time.ToShortDateString() == DateTime.Now.ToShortDateString());
-            double totalHours = 0;
-            string currentDate = String.Empty;
-            foreach(var item in res1)
-            {
-                if (item.Status == "IN")
-                {
-                    ViewBag.time = item.Time;
-                }
-                else
-                {
-                    var inDateTime = ViewBag.time;
-                    var outDateTime = item.Time;
-                    currentDate = inDateTime.ToShortDateString();
-                    totalHours = (outDateTime - inDateTime).TotalHours;
-                    totalHours += totalHours;
-                }
-            }
-            AttendenceLog attendenceLog = new AttendenceLog();
-            attendenceLog.UserId = userId;
-            attendenceLog.TotalHours = totalHours;
-            attendenceLog.Date = DateTime.Parse(currentDate);
-            var result = attendenceLogServ.CreateAsync(attendenceLog).Result;
-            return RedirectToAction("Get");
-        }
-
         public IActionResult Get()
         {
-            var res = attendenceLogServ.GetAsync().Result.Where(x=>x.UserId == 1002);
+            var res = attendenceLogServ.GetAsync().Result.Where(x=>x.UserId == HttpContext.Session.GetInt32("UserId1"));
             return View(res);
         }
 

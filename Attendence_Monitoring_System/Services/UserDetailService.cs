@@ -20,14 +20,27 @@
             return result;
         }
 
-        Task<UserDetail> IService<UserDetail, int>.GetAsync(int id)
+        async Task<UserDetail> IService<UserDetail, int>.GetAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await ctx.UserDetails.FindAsync(id);
+            return result;
         }
 
-        Task<UserDetail> IService<UserDetail, int>.UpdateAsync(int id, UserDetail entity)
+        async Task<UserDetail> IService<UserDetail, int>.UpdateAsync(int id, UserDetail entity)
         {
-            throw new NotImplementedException();
+            var info = await ctx.UserDetails.FindAsync(id);
+            if (info == null)
+            {
+                return null;
+            }
+            ctx.Entry(info).CurrentValues.SetValues(entity);
+            //info.Id = entity.Id;
+            //info.SectionId = entity.SectionId;
+            //info.UserId = entity.UserId;
+            //info.KeyName = entity.KeyName;
+            //info.Value = entity.Value;
+            await ctx.SaveChangesAsync();
+            return info;
         }
     }
 }
