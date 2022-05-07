@@ -18,18 +18,17 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string Status)
+        public IActionResult Create(string Status)
         {
             UserLog userLog = new UserLog();
             //userLog.UserId = HttpContext.Session.GetInt32("UserId");
-            userLog.UserId = 1002;
+            userLog.UserId = HttpContext.Session.GetInt32("UserId");
             userLog.Time = DateTime.Now;
             userLog.Status = Status;
             var result = userLogServ.CreateAsync(userLog).Result;
             if(Status == "OUT")
             {
-                int userId = 1002;
-                var res = userLogServ.GetAsync().Result.Where(x => x.UserId == userId);
+                var res = userLogServ.GetAsync().Result.Where(x => x.UserId == HttpContext.Session.GetInt32("UserId"));
                 var res1 = res.Where(x => x.Time.ToShortDateString() == DateTime.Now.ToShortDateString());  
                 double totalHours = 0;
                 string currentDate = String.Empty;
@@ -51,10 +50,11 @@
                 var dateExist = attendenceLogServ.GetAsync().Result.Where(x => x.Date == DateTime.Parse(currentDate)).Select(x => x.Date).FirstOrDefault();
                 var Id = attendenceLogServ.GetAsync().Result.Where(x => x.Date == DateTime.Parse(currentDate)).Select(x => x.Id).FirstOrDefault();
                 AttendenceLog attendenceLog = new AttendenceLog();
-                attendenceLog.UserId = userId;
+                attendenceLog.Id = Id;
+                attendenceLog.UserId = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
                 attendenceLog.TotalHours = totalHours;
                 attendenceLog.Date = DateTime.Parse(currentDate);
-                if (dateExist.ToShortDateString() != null)
+                if (dateExist.ToShortDateString() != "01-01-0001")
                 {
                     var update = attendenceLogServ.UpdateAsync(Id, attendenceLog).Result;
                 }

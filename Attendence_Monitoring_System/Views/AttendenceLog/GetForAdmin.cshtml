@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Attendence_Monitoring_System.Models.AttendenceLog>
+
+@{
+    ViewData["Title"] = "GetforAdmin";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalHours)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalHours)
+            </td>
+            <td>
+               | @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<a asp-action="ViewEmployee" asp-controller="Employee" class="btn btn-primary">Back</a>
+
+
+<style>
+    body {
+   background-image:
+   url("/Images/back_112.jpg");
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   background-size: 100% 100%;
+}
+</style>

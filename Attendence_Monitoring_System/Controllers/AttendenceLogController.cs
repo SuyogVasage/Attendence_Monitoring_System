@@ -13,7 +13,12 @@ namespace Attendence_Monitoring_System.Controllers
         }
         public IActionResult Get()
         {
-            var res = attendenceLogServ.GetAsync().Result.Where(x=>x.UserId == HttpContext.Session.GetInt32("UserId1"));
+            var res = attendenceLogServ.GetAsync().Result.Where(x=>x.UserId == HttpContext.Session.GetInt32("UserId"));
+            return View(res);
+        }
+        public IActionResult GetForAdmin()
+        {
+            var res = attendenceLogServ.GetAsync().Result.Where(x => x.UserId == HttpContext.Session.GetInt32("UserId1"));
             return View(res);
         }
 
