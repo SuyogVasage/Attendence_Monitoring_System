@@ -17,7 +17,8 @@
             </div>
             </form>
 </p>
-
+@if(Model != null)
+{
     <table class="table">
         <tbody>
             <tr>
@@ -96,12 +97,17 @@
  
         </tbody>
     </table>
+}
+else
+{
+    <h4>Wrong Input</h4>
+}
 <div>
     <br>
     <a asp-action="GetforAdmin" asp-controller="AttendenceLog" class="btn btn-primary">Attendance Details</a>
     <br>
     <br>
-    <a asp-action="Create" asp-controller="UserLog" class="btn btn-primary">Back</a>
+    <a asp-action="GetEmployee" asp-controller="Employee" class="btn btn-primary">Back</a>
 </div>
 
 @section Scripts {

@@ -10,17 +10,14 @@
         <title>JavaScript</title>
         <link rel="stylesheet" href="style.css">
     </head>
-    <body onload="checkOutDisable()">
+    <body onload="timerButton()">
         <div id="stopwatch">
             00:00:00
         </div>
         <ul id="buttons">
             <li><button onclick="startTimer()" id="IN" class ="btn btn-primary">Check In</button></li>
             <li><button onclick="stopTimer()" id="OUT" class ="btn btn-primary">Check Out</button></li>
-
-            @*<li><button onclick="resetTimer()">Reset</button></li>*@
         </ul>
-        <a asp-action="Login" asp-controller="User" class="button1" style="background-color:yellow;">Back</a>
         <br>
         <br>
         <a asp-action="Get" asp-controller="AttendenceLog" class="button2" style="background-color:yellow;">History</a>
@@ -28,8 +25,12 @@
         <br>
         <a asp-action="Get" asp-controller="UserDetail" class="button3" style="background-color:yellow;">Profile</a>
         <br>
+        <a asp-action="LogOut" asp-controller="User" class="button5" style="background-color:yellow;">LogOut</a>
         <br>
-        <a asp-action="GetEmployee" asp-controller="Employee" class="button4" style="background-color:yellow;">Employees</a>
+        @if(@ViewBag.RoleId == 102)
+        {
+            <a asp-action="GetEmployee" asp-controller="Employee" class="button4" style="background-color:yellow;">Employees</a>
+        }
         <script src="main.js"></script>
     </body>
 </html>
@@ -37,19 +38,43 @@
 
 <script>
     const timer = document.getElementById('stopwatch');
-
-    function checkOutDisable()
-    {
-         $('#OUT').prop('disabled', true);
-    }
-   
-var hr = 0;
-var min = 0;
-var sec = 0;
-var stoptime = true;
-
-function startTimer() {
     debugger;
+    var stoptime = false;
+     var hr = @ViewBag.hr; 
+     var min = @ViewBag.hr;
+     var sec = @ViewBag.hr;
+     function timerButton()
+     {
+         if(@ViewBag.inOut == 1)
+        {
+            hr = @ViewBag.hr; 
+            min = @ViewBag.min;
+            sec = @ViewBag.sec;
+           $('#OUT').prop('disabled', false);
+           $('#IN').prop('disabled', true);
+           timerCycle();
+        }
+        if(@ViewBag.inOut == 0)
+        {
+            hr = @ViewBag.hr; 
+            min = @ViewBag.min;
+            sec = @ViewBag.sec;
+           $('#OUT').prop('disabled', true);
+           $('#IN').prop('disabled', false);
+            
+        }
+        if(@ViewBag.inOut == 2)
+        {
+            hr = @ViewBag.hr; 
+            min = @ViewBag.min;
+            sec = @ViewBag.sec;
+            $('#OUT').prop('disabled', true);
+            $('#IN').prop('disabled', false);
+        }
+     }
+      
+function startTimer() {
+    
   if (stoptime == true) {
         stoptime = false;
         timerCycle();
@@ -63,7 +88,6 @@ function startTimer() {
 
       $('#IN').prop('disabled', true);
       $('#OUT').prop('disabled', false);
-      //$('#IN').attr("button", "button11");
        
 }
 function stopTimer() {
@@ -82,7 +106,7 @@ function stopTimer() {
 }
 
 function timerCycle() {
-    debugger;
+     debugger;
     if (stoptime == false) {
     sec = parseInt(sec);
     min = parseInt(min);
@@ -128,17 +152,11 @@ button {
     height: 30px;
     border: 3px white;
     border-radius: 50px;
-   /* background: yellow;*/
     color: black;
     cursor: pointer;
     outline: none;
 }
 
-.button1 {
-    position: absolute;
-    top: 300px;
-    left: 670px;
-}
 .button2 {
     position: absolute;
     top: 250px;
@@ -153,6 +171,11 @@ button {
     position: absolute;
     top: 350px;
     left: 650px;
+}
+.button5 {
+    position: absolute;
+    top: 40px;
+    left: 1200px;
 }
 #stopwatch {
     font-size: 50px;

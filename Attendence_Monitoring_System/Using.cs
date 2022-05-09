@@ -5,3 +5,4 @@ global using System.ComponentModel.DataAnnotations;
 global using Microsoft.AspNetCore.Mvc;
 global using System.Security.Cryptography;
 global using System.Text;
+global using Microsoft.AspNetCore.Mvc.Rendering;

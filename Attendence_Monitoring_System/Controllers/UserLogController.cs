@@ -1,4 +1,6 @@
-﻿namespace Attendence_Monitoring_System.Controllers
+﻿using Newtonsoft.Json;
+
+namespace Attendence_Monitoring_System.Controllers
 {
     public class UserLogController : Controller
     {
@@ -14,6 +16,31 @@
         public IActionResult Create()
         {
             UserLog userLog = new UserLog();
+            int? UserId = HttpContext.Session.GetInt32("UserId");
+            ViewBag.RoleId = HttpContext.Session.GetInt32("RoleId");
+            var lastStatus = userLogServ.GetAsync().Result.Where(x => x.UserId == UserId).Select(x => x.Status).LastOrDefault();
+            var lastDate = userLogServ.GetAsync().Result.Where(x => x.UserId == UserId).Select(x => x.Time).LastOrDefault().ToShortDateString();
+            var res = userLogServ.GetAsync().Result.Where(x => x.UserId == UserId);
+            var res1 = res.Where(x => x.Time.ToShortDateString() == DateTime.Now.ToShortDateString()).Select(x=>x.Time).FirstOrDefault();
+            var onlyTime = res1.ToLongTimeString();
+            var currentTime = DateTime.Now.ToLongTimeString();
+            TimeSpan duration = DateTime.Parse(currentTime).Subtract(DateTime.Parse(onlyTime));
+            ViewBag.hr = Convert.ToInt32(duration.Hours);
+            ViewBag.min = Convert.ToInt32(duration.Minutes);
+            ViewBag.sec = Convert.ToInt32(duration.Seconds);
+            if (lastStatus == "IN" && lastDate == DateTime.Now.ToShortDateString())
+            {
+                ViewBag.inOut = 1;
+            }
+            if (lastStatus == "OUT" && lastDate == DateTime.Now.ToShortDateString())
+            {
+                ViewBag.inOut = 0;
+            }
+            if(lastDate != DateTime.Now.ToShortDateString())
+            {
+                ViewBag.inOut = 2;
+            }
+
             return View(userLog);
         }
 
@@ -21,7 +48,6 @@
         public IActionResult Create(string Status)
         {
             UserLog userLog = new UserLog();
-            //userLog.UserId = HttpContext.Session.GetInt32("UserId");
             userLog.UserId = HttpContext.Session.GetInt32("UserId");
             userLog.Time = DateTime.Now;
             userLog.Status = Status;

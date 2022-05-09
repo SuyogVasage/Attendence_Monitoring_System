@@ -42,7 +42,6 @@ namespace Attendence_Monitoring_System.Controllers
             info.KeyName = userDetail.KeyName;
             info.Value = userDetail.Value;
             ctx.SaveChanges();
-            //var res = userDetailServ.UpdateAsync(userDetail.Id, userDetail);
             return RedirectToAction("Get");
         }
 

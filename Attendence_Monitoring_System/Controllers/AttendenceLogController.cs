@@ -28,6 +28,7 @@ namespace Attendence_Monitoring_System.Controllers
             var Date = attendenceLogServ.GetAsync().Result.Where(x => x.Id == Id).Select(x => x.Date.ToShortDateString()).FirstOrDefault();
             var res = userLogserv.GetAsync().Result.Where(x => x.UserId == UserId);
             var res1 = res.Where(x=> x.Time.ToShortDateString() == Date);
+            ViewBag.RoleId = HttpContext.Session.GetInt32("RoleId");
             return View(res1);
         }
 
