@@ -7,3 +7,4 @@ global using System.Security.Cryptography;
 global using System.Text;
 global using Microsoft.AspNetCore.Mvc.Rendering;
 global using Attendence_Monitoring_System.CustomSession;
+global using System.Text.Json;
