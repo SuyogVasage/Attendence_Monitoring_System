@@ -40,9 +40,9 @@
     const timer = document.getElementById('stopwatch');
     debugger;
     var stoptime = false;
-     var hr = @ViewBag.hr; 
-     var min = @ViewBag.hr;
-     var sec = @ViewBag.hr;
+     var hr = 0; 
+     var min = 0;
+     var sec = 0;
      function timerButton()
      {
          if(@ViewBag.inOut == 1)
@@ -65,9 +65,6 @@
         }
         if(@ViewBag.inOut == 2)
         {
-            hr = @ViewBag.hr; 
-            min = @ViewBag.min;
-            sec = @ViewBag.sec;
             $('#OUT').prop('disabled', true);
             $('#IN').prop('disabled', false);
         }

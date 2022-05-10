@@ -42,6 +42,16 @@ create table AttendenceLog(
 	TotalHours float
 )
 
+create table Regularization(
+	Id int identity(1,1) primary key,
+	UserId int not null References Users(UserId),
+	InTime DateTime,
+	OutTime DateTime,
+	TotalHours float,
+	Status varchar(100),
+	Reason varchar(200)
+)
+
 
 
 --Data Insertion of User Details

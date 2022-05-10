@@ -16,6 +16,7 @@ namespace Attendence_Monitoring_System.Controllers
             var res = attendenceLogServ.GetAsync().Result.Where(x=>x.UserId == HttpContext.Session.GetInt32("UserId"));
             return View(res);
         }
+
         public IActionResult GetForAdmin()
         {
             var res = attendenceLogServ.GetAsync().Result.Where(x => x.UserId == HttpContext.Session.GetInt32("UserId1"));
@@ -30,6 +31,27 @@ namespace Attendence_Monitoring_System.Controllers
             var res1 = res.Where(x=> x.Time.ToShortDateString() == Date);
             ViewBag.RoleId = HttpContext.Session.GetInt32("RoleId");
             return View(res1);
+        }
+
+        public IActionResult Edit()
+        {
+            Regularization regularization= HttpContext.Session.GetObject<Regularization>("UpdateData");
+            AttendenceLog attendenceLog= new AttendenceLog();
+            //TotalHours
+            attendenceLog.TotalHours = regularization.TotalHours;
+            var DateR = regularization.InTime.ToShortDateString();
+            var DateA = attendenceLogServ.GetAsync().Result.Where(x => x.UserId == regularization.UserId).Select(x => x.Date.ToShortDateString());
+            var res = DateA.Where(x=>x.Equals(DateR)).FirstOrDefault();
+            //Date
+            attendenceLog.Date = DateTime.Parse(res);
+            var userID = regularization.UserId;
+            //UserID
+            attendenceLog.UserId = Convert.ToInt32(userID);
+            //Id
+            attendenceLog.Id = attendenceLogServ.GetAsync().Result.Where(x=>x.Date == attendenceLog.Date).Select(x=>x.Id).FirstOrDefault();
+            
+            var result = attendenceLogServ.UpdateAsync(attendenceLog.Id, attendenceLog);
+            return RedirectToAction("Get", "Regularization");
         }
 
     }

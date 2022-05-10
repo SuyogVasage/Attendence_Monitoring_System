@@ -8,19 +8,19 @@ namespace Attendence_Monitoring_System.Models
         public User()
         {
             AttendenceLogs = new HashSet<AttendenceLog>();
+            Regularizations = new HashSet<Regularization>();
             UserDetails = new HashSet<UserDetail>();
             UserLogs = new HashSet<UserLog>();
         }
 
         public int UserId { get; set; }
-        [Required]
         public string Email { get; set; } = null!;
-        [Required]
         public string Password { get; set; } = null!;
         public int RoleId { get; set; }
 
         public virtual Role Role { get; set; } = null!;
         public virtual ICollection<AttendenceLog> AttendenceLogs { get; set; }
+        public virtual ICollection<Regularization> Regularizations { get; set; }
         public virtual ICollection<UserDetail> UserDetails { get; set; }
         public virtual ICollection<UserLog> UserLogs { get; set; }
     }

@@ -16,31 +16,11 @@ namespace Attendence_Monitoring_System.Controllers
         public IActionResult Create()
         {
             UserLog userLog = new UserLog();
-            int? UserId = HttpContext.Session.GetInt32("UserId");
-            ViewBag.RoleId = HttpContext.Session.GetInt32("RoleId");
-            var lastStatus = userLogServ.GetAsync().Result.Where(x => x.UserId == UserId).Select(x => x.Status).LastOrDefault();
-            var lastDate = userLogServ.GetAsync().Result.Where(x => x.UserId == UserId).Select(x => x.Time).LastOrDefault().ToShortDateString();
-            var res = userLogServ.GetAsync().Result.Where(x => x.UserId == UserId);
-            var res1 = res.Where(x => x.Time.ToShortDateString() == DateTime.Now.ToShortDateString()).Select(x=>x.Time).FirstOrDefault();
-            var onlyTime = res1.ToLongTimeString();
-            var currentTime = DateTime.Now.ToLongTimeString();
-            TimeSpan duration = DateTime.Parse(currentTime).Subtract(DateTime.Parse(onlyTime));
-            ViewBag.hr = Convert.ToInt32(duration.Hours);
-            ViewBag.min = Convert.ToInt32(duration.Minutes);
-            ViewBag.sec = Convert.ToInt32(duration.Seconds);
-            if (lastStatus == "IN" && lastDate == DateTime.Now.ToShortDateString())
-            {
-                ViewBag.inOut = 1;
-            }
-            if (lastStatus == "OUT" && lastDate == DateTime.Now.ToShortDateString())
-            {
-                ViewBag.inOut = 0;
-            }
-            if(lastDate != DateTime.Now.ToShortDateString())
-            {
-                ViewBag.inOut = 2;
-            }
-
+            int hr = 0, min = 0, sec = 0;
+            ViewBag.inOut = calculatTime(out hr, out min, out sec);
+            ViewBag.hr = hr;
+            ViewBag.min = min;
+            ViewBag.sec = sec;
             return View(userLog);
         }
 
@@ -88,9 +68,47 @@ namespace Attendence_Monitoring_System.Controllers
                 {
                     var create = attendenceLogServ.CreateAsync(attendenceLog).Result;
                 }
+                int hr = 0, min = 0, sec = 0;
+                ViewBag.inOut = calculatTime(out hr, out min, out sec);
+                ViewBag.hr = hr;
+                ViewBag.min = min;
+                ViewBag.sec = sec;
             }
             return View(userLog);
         }
 
+
+
+        public int calculatTime(out int hr, out int min, out int sec)
+        {
+            int? UserId = HttpContext.Session.GetInt32("UserId");
+            ViewBag.RoleId = HttpContext.Session.GetInt32("RoleId");
+            var lastStatus = userLogServ.GetAsync().Result.Where(x => x.UserId == UserId).Select(x => x.Status).LastOrDefault();
+            var lastDate = userLogServ.GetAsync().Result.Where(x => x.UserId == UserId).Select(x => x.Time).LastOrDefault().ToShortDateString();
+            var res = userLogServ.GetAsync().Result.Where(x => x.UserId == UserId);
+            var res1 = res.Where(x => x.Time.ToShortDateString() == DateTime.Now.ToShortDateString()).Select(x => x.Time).FirstOrDefault();
+            var onlyTime = res1.ToLongTimeString();
+            var currentTime = DateTime.Now.ToLongTimeString();
+            TimeSpan duration = DateTime.Parse(currentTime).Subtract(DateTime.Parse(onlyTime));
+            hr = Convert.ToInt32(duration.Hours);
+            min = Convert.ToInt32(duration.Minutes);
+            sec = Convert.ToInt32(duration.Seconds);
+            if (lastStatus == "IN" && lastDate == DateTime.Now.ToShortDateString())
+            {
+                return 1;
+            }
+            if (lastStatus == "OUT" && lastDate == DateTime.Now.ToShortDateString())
+            {
+                return 0;
+            }
+           else
+            {
+                return 2;
+            }
+        }
+
     }
 }
+
+
+

@@ -10,6 +10,7 @@ namespace Attendence_Monitoring_System.Models
         public string KeyName { get; set; } = null!;
         public string Value { get; set; } = null!;
         public int? SectionId { get; set; }
+
         public virtual Section? Section { get; set; }
         public virtual User User { get; set; } = null!;
     }

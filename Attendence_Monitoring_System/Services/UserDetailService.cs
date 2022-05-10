@@ -43,21 +43,5 @@
             return info;
         }
 
-        public UserDetail Update1Async(int id, UserDetail entity)
-        {
-            var info = ctx.UserDetails.Find(id);
-            if (info == null)
-            {
-                return null;
-            }
-            ctx.Entry(info).CurrentValues.SetValues(entity);
-            //info.Id = entity.Id;
-            //info.SectionId = entity.SectionId;
-            //info.UserId = entity.UserId;
-            //info.KeyName = entity.KeyName;
-            //info.Value = entity.Value;
-            ctx.SaveChanges();
-            return info;
-        }
     }
 }

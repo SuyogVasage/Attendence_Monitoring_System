@@ -14,6 +14,7 @@ builder.Services.AddScoped<IService<User, int>, UserService>();
 builder.Services.AddScoped<IService<UserLog, int>, UserLogService>();
 builder.Services.AddScoped<IService<UserDetail, int>, UserDetailService>();
 builder.Services.AddScoped<IService<AttendenceLog, int>, AttendenceLogService>();
+builder.Services.AddScoped<IService<Regularization, int>, RegularizationService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
     options => options.LoginPath = "/User/Login");
@@ -53,4 +54,4 @@ app.Run();
 
 
 
-//dotnet ef dbcontext scaffold "Data Source=SVASAGE-LAP-047\SQLEXPRESS;Initial Catalog=Attendence_Monitoring_System;Integrated Security=SSPI" Microsoft.EntityFrameworkCore.SqlServer -o Models
+//dotnet ef dbcontext scaffold "Data Source=SVASAGE-LAP-047\SQLEXPRESS;Initial Catalog=Attendence_Monitoring_System;Integrated Security=SSPI" Microsoft.EntityFrameworkCore.SqlServer -o Models --force

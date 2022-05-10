@@ -17,6 +17,7 @@ namespace Attendence_Monitoring_System.Models
         }
 
         public virtual DbSet<AttendenceLog> AttendenceLogs { get; set; } = null!;
+        public virtual DbSet<Regularization> Regularizations { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Section> Sections { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
@@ -45,6 +46,29 @@ namespace Attendence_Monitoring_System.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Attendenc__UserI__440B1D61");
+            });
+
+            modelBuilder.Entity<Regularization>(entity =>
+            {
+                entity.ToTable("Regularization");
+
+                entity.Property(e => e.InTime).HasColumnType("datetime");
+
+                entity.Property(e => e.OutTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Reason)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Status)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Regularizations)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Regulariz__UserI__49C3F6B7");
             });
 
             modelBuilder.Entity<Role>(entity =>
