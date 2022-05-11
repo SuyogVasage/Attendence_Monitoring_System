@@ -6,7 +6,9 @@ namespace Attendence_Monitoring_System.Controllers
     {
         private readonly IService<AttendenceLog, int> attendenceLogServ;
         private readonly IService<UserLog, int> userLogserv;
-        public AttendenceLogController(IService<AttendenceLog, int> attendenceLogServ, IService<UserLog, int> userLogserv)
+
+        public AttendenceLogController(IService<AttendenceLog, int> attendenceLogServ, 
+            IService<UserLog, int> userLogserv)
         {
             this.attendenceLogServ = attendenceLogServ;
             this.userLogserv = userLogserv;
@@ -33,23 +35,19 @@ namespace Attendence_Monitoring_System.Controllers
             return View(res1);
         }
 
+
         public IActionResult Edit()
         {
             Regularization regularization= HttpContext.Session.GetObject<Regularization>("UpdateData");
             AttendenceLog attendenceLog= new AttendenceLog();
-            //TotalHours
             attendenceLog.TotalHours = regularization.TotalHours;
             var DateR = regularization.InTime.ToShortDateString();
             var DateA = attendenceLogServ.GetAsync().Result.Where(x => x.UserId == regularization.UserId).Select(x => x.Date.ToShortDateString());
             var res = DateA.Where(x=>x.Equals(DateR)).FirstOrDefault();
-            //Date
             attendenceLog.Date = DateTime.Parse(res);
             var userID = regularization.UserId;
-            //UserID
             attendenceLog.UserId = Convert.ToInt32(userID);
-            //Id
             attendenceLog.Id = attendenceLogServ.GetAsync().Result.Where(x=>x.Date == attendenceLog.Date).Select(x=>x.Id).FirstOrDefault();
-            
             var result = attendenceLogServ.UpdateAsync(attendenceLog.Id, attendenceLog);
             return RedirectToAction("Get", "Regularization");
         }

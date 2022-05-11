@@ -21,7 +21,7 @@ namespace Attendence_Monitoring_System.Controllers
             dataAccess = new DataAccess(_httpContextAccessor, ctx);
         }
 
-        public IActionResult Create()
+        public IActionResult Create(int UserID)
         {
             UserLog userLog = new UserLog();
             CalulateTime();

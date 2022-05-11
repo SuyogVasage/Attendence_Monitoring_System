@@ -25,12 +25,6 @@
 }
     </tbody>
 </table>
-@if(@ViewBag.RoleId == 102)
-{
-    <a asp-action="GetForAdmin" asp-controller="AttendenceLog" class="btn btn-primary">Back</a>
-}
-else
-{
-    <a asp-action="Get" asp-controller="AttendenceLog" class="btn btn-primary">Back</a>
-}
+
+<input class="btn btn-primary" type="button" value="Back" onclick="history.back()">
 

@@ -15,21 +15,21 @@
             00:00:00
         </div>
         <ul id="buttons">
-            <li><button onclick="startTimer()" id="IN" class ="btn btn-primary">Check In</button></li>
+            <li><button onclick="startTimer()"  id="IN" class ="btn btn-primary">Check In</button></li>
             <li><button onclick="stopTimer()" id="OUT" class ="btn btn-primary">Check Out</button></li>
         </ul>
         <br>
         <br>
-        <a asp-action="Get" asp-controller="AttendenceLog" class="button2" style="background-color:yellow;">History</a>
+        <a asp-action="Get" asp-controller="AttendenceLog" class="btn btn-success button2">History</a>
         <br>
         <br>
-        <a asp-action="Get" asp-controller="UserDetail" class="button3" style="background-color:yellow;">Profile</a>
+        <a asp-action="Get" asp-controller="UserDetail" class="btn btn-success button3" >Profile</a>
         <br>
-        <a asp-action="LogOut" asp-controller="User" class="button5" style="background-color:yellow;">LogOut</a>
+        <a asp-action="LogOut" asp-controller="User" class="btn btn-success button5" >LogOut</a>
         <br>
         @if(@ViewBag.RoleId == 102)
         {
-            <a asp-action="GetEmployee" asp-controller="Employee" class="button4" style="background-color:yellow;">Employees</a>
+            <a asp-action="GetEmployee" asp-controller="Employee" class="btn btn-success button4" >Employees</a>
         }
         <script src="main.js"></script>
     </body>
@@ -85,6 +85,7 @@ function startTimer() {
 
       $('#IN').prop('disabled', true);
       $('#OUT').prop('disabled', false);
+      window.location.reload()
        
 }
 function stopTimer() {
@@ -157,22 +158,22 @@ button {
 .button2 {
     position: absolute;
     top: 250px;
-    left: 600px;
+    left: 595px;
 }
 .button3 {
     position: absolute;
     top: 250px;
-    left: 710px;
+    left: 700px;
 }
 .button4 {
     position: absolute;
     top: 350px;
-    left: 650px;
+    left: 635px;
 }
 .button5 {
     position: absolute;
-    top: 40px;
-    left: 1200px;
+    top: 35px;
+    left: 1250px;
 }
 #stopwatch {
     font-size: 50px;

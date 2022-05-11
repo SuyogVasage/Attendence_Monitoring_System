@@ -39,6 +39,7 @@ namespace Attendence_Monitoring_System.Controllers
                 HttpContext.Session.SetInt32("RoleId", res.RoleId);
                 HttpContext.Session.SetInt32("UserId",res.UserId);
                 return RedirectToAction("Create", "UserLog");
+                //return RedirectToAction("Create", "UserLog", new {UserID = res.UserId});
             }
             else
             {
