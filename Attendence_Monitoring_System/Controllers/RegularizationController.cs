@@ -16,6 +16,7 @@ namespace Attendence_Monitoring_System.Controllers
             return View(regularization);
         }
 
+        //Creating regularization request 
         [HttpPost]
         public IActionResult Create(Regularization regularization)
         {
@@ -27,12 +28,14 @@ namespace Attendence_Monitoring_System.Controllers
             return RedirectToAction("Get", "AttendenceLog");
         }
 
+        //Admin will see only pending requests
         public IActionResult Get()
         {
             var result = regularizationServ.GetAsync().Result.Where(x=>x.Status=="Pending");  
             return View(result);
         }
 
+        // Approving regularization by Admin
         public IActionResult Edit(int Id)
         {
             var item = regularizationServ.GetAsync().Result.Where(x=>x.Id ==Id).FirstOrDefault();
@@ -42,6 +45,7 @@ namespace Attendence_Monitoring_System.Controllers
             return RedirectToAction("Edit", "AttendenceLog");
         }
 
+        //User can see all requests of him
         public IActionResult GetforUser()
         {
             var result = regularizationServ.GetAsync().Result.Where(x => x.UserId == HttpContext.Session.GetInt32("UserId"));
@@ -49,6 +53,7 @@ namespace Attendence_Monitoring_System.Controllers
         }
 
 
+        //DropDown for Reason on regularization
         public void ListItem()
         {
             List<SelectListItem> items = new List<SelectListItem>();

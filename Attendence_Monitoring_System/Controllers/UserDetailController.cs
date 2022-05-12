@@ -6,11 +6,12 @@ namespace Attendence_Monitoring_System.Controllers
     {
         private readonly IService<UserDetail, int> userDetailServ;
         private readonly Attendence_Monitoring_SystemContext ctx;
-
+        public ProfileValidation profileValidation;
         public UserDetailController(IService<UserDetail, int> userDetailServ, Attendence_Monitoring_SystemContext ctx)
         {
             this.userDetailServ = userDetailServ;
             this.ctx = ctx;
+            profileValidation = new ProfileValidation();
         }
 
         public IActionResult Get()
@@ -33,6 +34,13 @@ namespace Attendence_Monitoring_System.Controllers
         [HttpPost]
        public IActionResult Edit(UserDetail userDetail)
         {
+            string ErrorMessage = String.Empty;
+            bool validResult = profileValidation.Validation(userDetail, out ErrorMessage);
+            if(validResult == false)
+            {
+                ViewBag.Error = ErrorMessage;
+                return View(userDetail);
+            }
             userDetail.UserId = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
             userDetail.SectionId = HttpContext.Session.GetInt32("SectionId");
             var info = ctx.UserDetails.Find(userDetail.Id);

@@ -34,9 +34,13 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Value)
                     </td>
-                    <td>
-                        | @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                    </td>
+                    @if(item.KeyName != "Employee Id")
+                        {
+                              <td>
+                            | @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                             </td>  
+                        }
+                        
                     }
                 </tr>
             }
