@@ -9,7 +9,7 @@ namespace Attendence_Monitoring_System.Models
         public int? UserId { get; set; }
         public DateTime InTime { get; set; }
         public DateTime OutTime { get; set; }
-        public double TotalHours { get; set; }
+        public string? TotalHours { get; set; }
         public string? Status { get; set; }
         public string? Reason { get; set; }
 

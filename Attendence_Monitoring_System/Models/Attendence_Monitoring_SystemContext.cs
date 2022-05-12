@@ -41,6 +41,10 @@ namespace Attendence_Monitoring_System.Models
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
+                entity.Property(e => e.TotalHours)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AttendenceLogs)
                     .HasForeignKey(d => d.UserId)
@@ -61,6 +65,10 @@ namespace Attendence_Monitoring_System.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Status)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TotalHours)
                     .HasMaxLength(100)
                     .IsUnicode(false);
 

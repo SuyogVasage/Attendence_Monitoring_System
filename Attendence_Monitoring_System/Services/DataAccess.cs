@@ -70,7 +70,6 @@ namespace Attendence_Monitoring_System.Services
                 {
                     var inDateTime = DateTime.Parse(_httpContextAccessor.HttpContext.Session.GetString("TempTime"));
                     var outDateTime = item.Time;
-                    double tempHours = (outDateTime - inDateTime).TotalHours;
                     middleTime = outDateTime.Subtract(inDateTime);
                     TotalTime = TotalTime + middleTime;
                     lastStatus = "OUT";
@@ -82,6 +81,7 @@ namespace Attendence_Monitoring_System.Services
                 var res2 = res1.Where(x => x.Status == "IN").Select(x => x.Time).LastOrDefault();
                 var lastInTime = res1.Select(x => x.Time).LastOrDefault();
                 TimeSpan tt = DateTime.Now.Subtract(lastInTime);
+                string ttt = $"{tt.Hours}:{tt.Minutes}:{tt.Seconds}";
                 TotalTime = TotalTime + tt;
             }
             hr = Convert.ToInt32(TotalTime.Hours);
@@ -113,7 +113,8 @@ namespace Attendence_Monitoring_System.Services
             string lastStatus = String.Empty;
             var res = ctx.UserLogs.ToList().Where(x => x.UserId == _httpContextAccessor.HttpContext.Session.GetInt32("UserId"));
             var res1 = res.Where(x => x.Time.ToShortDateString() == DateTime.Now.ToShortDateString());
-            double totalHours = 0;
+            
+            TimeSpan totalHours = TimeSpan.Zero;
             string currentDate = String.Empty;
             foreach (var item in res1)
             {
@@ -129,8 +130,8 @@ namespace Attendence_Monitoring_System.Services
                     var inDateTime = DateTime.Parse(_httpContextAccessor.HttpContext.Session.GetString("TempTime"));
                     var outDateTime = item.Time;
                     currentDate = inDateTime.ToShortDateString();
-                    double tempHours = (outDateTime - inDateTime).TotalHours;
-                    totalHours = totalHours + tempHours;
+                    TimeSpan tempHour = outDateTime.Subtract(inDateTime);
+                     totalHours = totalHours + tempHour;
                 }
             }
 
@@ -138,7 +139,7 @@ namespace Attendence_Monitoring_System.Services
             {
                 var res2 = res1.Where(x => x.Status == "IN").Select(x => x.Time).LastOrDefault();
                 var lastInTime = res1.Select(x => x.Time).LastOrDefault();
-                double tt = (DateTime.Now - lastInTime).TotalHours;
+                TimeSpan tt = DateTime.Now.Subtract(lastInTime);
                 totalHours = totalHours + tt;
                 SubcalculateAttendance(currentDate, totalHours);
             }
@@ -149,15 +150,15 @@ namespace Attendence_Monitoring_System.Services
             return userLog;
         }
 
-        public void SubcalculateAttendance(string currentDate, double totalHours)
+        public void SubcalculateAttendance(string currentDate, TimeSpan totalHours)
         {
             var dateExist = ctx.AttendenceLogs.ToList().Where(x => x.Date == DateTime.Parse(currentDate));//.Select(x => x.Date).FirstOrDefault();
-            var dateExist1 = dateExist.Where(x => x.UserId == _httpContextAccessor.HttpContext.Session.GetInt32("UserId")).Select(x => x.Date).FirstOrDefault();
+            DateTime dateExist1 = dateExist.Where(x => x.UserId == _httpContextAccessor.HttpContext.Session.GetInt32("UserId")).Select(x => x.Date).FirstOrDefault();
             var Id1 = ctx.AttendenceLogs.ToList().Where(x => x.Date == DateTime.Parse(currentDate));
             var Id = Id1.Where(x => x.UserId == _httpContextAccessor.HttpContext.Session.GetInt32("UserId")).Select(x => x.Id).FirstOrDefault();
             AttendenceLog attendenceLog = new AttendenceLog();
             attendenceLog.UserId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("UserId"));
-            attendenceLog.TotalHours = totalHours;
+            attendenceLog.TotalHours = $"{totalHours.Hours}:{totalHours.Minutes}:{totalHours.Seconds}";
             attendenceLog.Date = DateTime.Parse(currentDate);
             if (dateExist1.ToShortDateString() != "01-01-0001")
             {

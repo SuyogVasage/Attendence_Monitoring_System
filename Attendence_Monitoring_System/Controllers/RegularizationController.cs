@@ -21,7 +21,8 @@ namespace Attendence_Monitoring_System.Controllers
         {
             regularization.UserId = HttpContext.Session.GetInt32("UserId");
             regularization.Status = "Pending";
-            regularization.TotalHours = (regularization.OutTime - regularization.InTime).TotalHours;
+            TimeSpan TotalHours = regularization.OutTime.Subtract(regularization.InTime);
+            regularization.TotalHours = $"{TotalHours.Hours}:{TotalHours.Minutes}:{TotalHours.Seconds}";
             var result = regularizationServ.CreateAsync(regularization).Result;
             return RedirectToAction("Get", "AttendenceLog");
         }
