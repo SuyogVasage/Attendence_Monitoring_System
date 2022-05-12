@@ -27,19 +27,22 @@ namespace Attendence_Monitoring_System.Controllers
         public async Task<IActionResult> Login(User user)
         {
             user.Email = user.Email.ToLower();
-            var res = userServ.GetAsync().Result.Where(x => x.Email == user.Email).FirstOrDefault();
-            if (res == null)
+            var userData = userServ.GetAsync().Result.Where(x => x.Email == user.Email).FirstOrDefault();
+            if (userData == null)
             {
                 ViewBag.Message = "Wrong EmailId";
                 return View(user);
             }
-            string decryptedPassword = dataAccess.DecryptAsync(res.Password);
+            //Decrypting Password from DB
+            string decryptedPassword = dataAccess.DecryptAsync(userData.Password);
             if (user.Password == decryptedPassword)
             {
-                HttpContext.Session.SetInt32("RoleId", res.RoleId);
-                HttpContext.Session.SetInt32("UserId",res.UserId);
+                //Setting RoleId for Reference
+                HttpContext.Session.SetInt32("RoleId", userData.RoleId);
+                //Setting UserId for Reference
+                HttpContext.Session.SetInt32("UserId", userData.UserId);
+                //To Home Page (Timer Page)
                 return RedirectToAction("Create", "UserLog");
-                //return RedirectToAction("Create", "UserLog", new {UserID = res.UserId});
             }
             else
             {
@@ -50,7 +53,7 @@ namespace Attendence_Monitoring_System.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
+            //Simply Redirecting to Login Page
             return RedirectToAction("Login");
         }
 

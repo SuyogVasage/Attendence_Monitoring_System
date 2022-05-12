@@ -14,10 +14,13 @@ namespace Attendence_Monitoring_System.Controllers
             this._httpContextAccessor = _httpContextAccessor;
             dataAccess = new DataAccess(_httpContextAccessor,ctx);
         }
+
+        //These two methods will display required employee details for Admin
         public IActionResult ViewEmployee(string SearchOption, string SearchString)
         {
             var empList = dataAccess.EmpController(SearchOption, SearchString);
             ListItem();
+            ViewBag.ImgPath = empList.users.Where(x => x.KeyName == "Img Path").Select(x => x.Value).FirstOrDefault();
             return View(empList);
         }
 
@@ -27,7 +30,7 @@ namespace Attendence_Monitoring_System.Controllers
             return RedirectToAction("ViewEmployee", new { SearchOption = SearchOption, SearchString = SearchString });
         }
 
-
+        //DropDown for Choice
         public void ListItem()
         {
             List<SelectListItem> items = new List<SelectListItem>();

@@ -24,6 +24,7 @@ namespace Attendence_Monitoring_System.Controllers
         public IActionResult Create(int UserID)
         {
             UserLog userLog = new UserLog();
+            //Calculating Time for Timer on View
             CalulateTime();
             return View(userLog);
         }
@@ -32,7 +33,9 @@ namespace Attendence_Monitoring_System.Controllers
         public IActionResult Create(string Status)
         {
             UserLog userLog = new UserLog();
+            //Calculating Attendence by Status
             userLog = dataAccess.calculateAttendance(Status);
+            //Calculating Time for Timer on View
             CalulateTime();
             return View(userLog);
         }
@@ -41,6 +44,7 @@ namespace Attendence_Monitoring_System.Controllers
         {
             int hr = 0, min = 0, sec = 0;
             int? RoleId = 0;
+            //Method to get Hours, Minutes, Seconds for Timer
             ViewBag.inOut = dataAccess.calculatTime(out hr, out min, out sec, out RoleId);
             ViewBag.hr = hr;
             ViewBag.min = min;

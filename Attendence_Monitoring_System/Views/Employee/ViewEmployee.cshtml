@@ -17,8 +17,14 @@
             </div>
             </form>
 </p>
-@if(Model != null)
+@if(Model.users.Count() != 0)
 {
+     <br>
+    <img src="@ViewBag.ImgPath"                            
+    class="square"                            
+    height="140" width="140"
+    asp-append-version="true" /> 
+
     <table class="table">
         <tbody>
             <tr>
@@ -36,13 +42,16 @@
                 @if(item.SectionId == 1)
                 {
                     <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.KeyName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Value)
-                    </td>
-                </tr>
+                        @if (item.KeyName != "Img Path")
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.KeyName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Value)
+                            </td>
+                        }
+                    </tr>
             }
             }
             <tr>
@@ -98,10 +107,7 @@
         </tbody>
     </table>
 }
-else
-{
-    <h4>Wrong Input</h4>
-}
+
 <div>
     <br>
     <a asp-action="GetforAdmin" asp-controller="AttendenceLog" class="btn btn-primary">Attendance Details</a>

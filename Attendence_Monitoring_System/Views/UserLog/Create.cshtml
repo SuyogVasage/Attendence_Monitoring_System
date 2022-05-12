@@ -38,6 +38,10 @@
 
 <script>
     const timer = document.getElementById('stopwatch');
+    //window.location.reload();
+//    setTimeout(function(){
+//   window.location.reload(1);
+//}  , 5000);
     debugger;
     var stoptime = false;
      var hr = 0; 
@@ -83,15 +87,10 @@ function startTimer() {
                 type: "POST",
             });
 
-            // $.ajax({
-            //    url: "/UserLog/Create",
-            //    type: "GET",
-            //});
 
       $('#IN').prop('disabled', true);
       $('#OUT').prop('disabled', false);
-      window.location.reload();
-       
+      //window.location.reload();
 }
 function stopTimer() {
   if (stoptime == false) {
@@ -138,7 +137,7 @@ function timerCycle() {
     }
 
     timer.innerHTML = hr + ':' + min + ':' + sec;
-
+    
     setTimeout("timerCycle()", 1000);
   }
 }

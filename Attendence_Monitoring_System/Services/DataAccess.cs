@@ -11,7 +11,7 @@ namespace Attendence_Monitoring_System.Services
             this._httpContextAccessor = _httpContextAccessor;
             this.ctx = ctx;
         }
-
+        //From EmployeeController
         public EmployeeList EmpController(string SearchOption, string SearchString)
         {
             IEnumerable<UserDetail> res1 = new List<UserDetail>();
@@ -39,12 +39,14 @@ namespace Attendence_Monitoring_System.Services
             return empList;
         }
 
-
+        //From UserLog=>Create
         public int calculatTime(out int hr, out int min, out int sec, out int? RoleId)
         {
+            
             int? UserId = _httpContextAccessor.HttpContext.Session.GetInt32("UserId");
             RoleId =_httpContextAccessor.HttpContext.Session.GetInt32("RoleId");
 
+            //For New Day
             var lastDate = ctx.UserLogs.ToList().Where(x => x.UserId == UserId).Select(x => x.Time).LastOrDefault().ToShortDateString();
             if(lastDate != DateTime.Now.ToShortDateString())
             {
@@ -54,12 +56,13 @@ namespace Attendence_Monitoring_System.Services
                 return 2;
             }
 
-            var res = ctx.UserLogs.ToList().Where(x => x.UserId == _httpContextAccessor.HttpContext.Session.GetInt32("UserId"));
-            var res1 = res.Where(x => x.Time.ToShortDateString() == DateTime.Now.ToShortDateString());
+            var userLogs = ctx.UserLogs.ToList().Where(x => x.UserId == _httpContextAccessor.HttpContext.Session.GetInt32("UserId"));
+            var userLogsByDate = userLogs.Where(x => x.Time.ToShortDateString() == DateTime.Now.ToShortDateString());
             TimeSpan middleTime;
             TimeSpan TotalTime = TimeSpan.Zero;
             string lastStatus = String.Empty;
-            foreach (var item in res1)
+            //Calculating Total TimeSpan
+            foreach (var item in userLogsByDate)
             {
                 if (item.Status == "IN")
                 {
@@ -78,15 +81,17 @@ namespace Attendence_Monitoring_System.Services
             
             if(lastStatus == "IN")
             {
-                var res2 = res1.Where(x => x.Status == "IN").Select(x => x.Time).LastOrDefault();
-                var lastInTime = res1.Select(x => x.Time).LastOrDefault();
+                var res2 = userLogsByDate.Where(x => x.Status == "IN").Select(x => x.Time).LastOrDefault();
+                var lastInTime = userLogsByDate.Select(x => x.Time).LastOrDefault();
                 TimeSpan tt = DateTime.Now.Subtract(lastInTime);
                 string ttt = $"{tt.Hours}:{tt.Minutes}:{tt.Seconds}";
                 TotalTime = TotalTime + tt;
             }
+            //Getting only hours, minutes, seconds from TimeSpan
             hr = Convert.ToInt32(TotalTime.Hours);
             min = Convert.ToInt32(TotalTime.Minutes);
             sec = Convert.ToInt32(TotalTime.Seconds);
+            //Returning the Status by int Notation
             if (lastStatus == "IN")
             {
                 return 1;
@@ -101,25 +106,31 @@ namespace Attendence_Monitoring_System.Services
             }
         }
 
+        //From UserLog=>Create
         public UserLog calculateAttendance(string Status)
         {
             UserLog userLog = new UserLog();
             userLog.UserId = _httpContextAccessor.HttpContext.Session.GetInt32("UserId");
             userLog.Time = DateTime.Now;
             userLog.Status = Status;
-            ctx.UserLogs.Add(userLog);
+            //Adding Data in UserLog Table
+            var temp = ctx.UserLogs.Add(userLog);
             ctx.SaveChanges();
 
             string lastStatus = String.Empty;
-            var res = ctx.UserLogs.ToList().Where(x => x.UserId == _httpContextAccessor.HttpContext.Session.GetInt32("UserId"));
-            var res1 = res.Where(x => x.Time.ToShortDateString() == DateTime.Now.ToShortDateString());
+            //userLogs by UserId
+            var userLogs = ctx.UserLogs.ToList().Where(x => x.UserId == _httpContextAccessor.HttpContext.Session.GetInt32("UserId"));
+            //userLogs by Date
+            var userLogsByDate = userLogs.Where(x => x.Time.ToShortDateString() == DateTime.Now.ToShortDateString());
+            
             
             TimeSpan totalHours = TimeSpan.Zero;
             string currentDate = String.Empty;
-            foreach (var item in res1)
+            foreach (var item in userLogsByDate)
             {
                 if (item.Status == "IN")
                 {
+                    //Saving In Time
                     _httpContextAccessor.HttpContext.Session.SetString("TempTime", item.Time.ToString());
                     lastStatus = "IN";
                     currentDate = item.Time.ToShortDateString();
@@ -130,15 +141,18 @@ namespace Attendence_Monitoring_System.Services
                     var inDateTime = DateTime.Parse(_httpContextAccessor.HttpContext.Session.GetString("TempTime"));
                     var outDateTime = item.Time;
                     currentDate = inDateTime.ToShortDateString();
+                    //Calculating Timespan Between outTime and inTime
                     TimeSpan tempHour = outDateTime.Subtract(inDateTime);
+                    //Saving Total Time
                      totalHours = totalHours + tempHour;
                 }
             }
 
+            //If last Status is IN calculate Time Between DateTime.Now and Last In Time
+            //And add that time to totalHours
             if (Status == "IN")
             {
-                var res2 = res1.Where(x => x.Status == "IN").Select(x => x.Time).LastOrDefault();
-                var lastInTime = res1.Select(x => x.Time).LastOrDefault();
+                var lastInTime = userLogsByDate.Select(x => x.Time).LastOrDefault();
                 TimeSpan tt = DateTime.Now.Subtract(lastInTime);
                 totalHours = totalHours + tt;
                 SubcalculateAttendance(currentDate, totalHours);
@@ -150,16 +164,22 @@ namespace Attendence_Monitoring_System.Services
             return userLog;
         }
 
+        //Common Method for Both IN and OUT 
+        //To Update or Create Attendence Log in DB
         public void SubcalculateAttendance(string currentDate, TimeSpan totalHours)
         {
-            var dateExist = ctx.AttendenceLogs.ToList().Where(x => x.Date == DateTime.Parse(currentDate));//.Select(x => x.Date).FirstOrDefault();
+            //IEnumerable of Dates in Attendence Log Table
+            var dateExist = ctx.AttendenceLogs.ToList().Where(x => x.Date == DateTime.Parse(currentDate));
+            //Date for particular User
             DateTime dateExist1 = dateExist.Where(x => x.UserId == _httpContextAccessor.HttpContext.Session.GetInt32("UserId")).Select(x => x.Date).FirstOrDefault();
-            var Id1 = ctx.AttendenceLogs.ToList().Where(x => x.Date == DateTime.Parse(currentDate));
-            var Id = Id1.Where(x => x.UserId == _httpContextAccessor.HttpContext.Session.GetInt32("UserId")).Select(x => x.Id).FirstOrDefault();
+            var Ids = ctx.AttendenceLogs.ToList().Where(x => x.Date == DateTime.Parse(currentDate));
+            //Finding ID (PK of Table) To Update the data
+            var Id = Ids.Where(x => x.UserId == _httpContextAccessor.HttpContext.Session.GetInt32("UserId")).Select(x => x.Id).FirstOrDefault();
             AttendenceLog attendenceLog = new AttendenceLog();
             attendenceLog.UserId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("UserId"));
             attendenceLog.TotalHours = $"{totalHours.Hours}:{totalHours.Minutes}:{totalHours.Seconds}";
             attendenceLog.Date = DateTime.Parse(currentDate);
+            //If Date Exist then Update Otherwise Add
             if (dateExist1.ToShortDateString() != "01-01-0001")
             {
                 attendenceLog.Id = Id;
@@ -173,6 +193,8 @@ namespace Attendence_Monitoring_System.Services
                 ctx.SaveChanges();
             }
         }
+
+        //Decrypting the Password
         public string DecryptAsync(string text)
         {
             var textToDecrypt = text;

@@ -13,18 +13,22 @@ namespace Attendence_Monitoring_System.Controllers
             this.attendenceLogServ = attendenceLogServ;
             this.userLogserv = userLogserv;
         }
+
+        //User Can see his Data only
         public IActionResult Get()
         {
             var res = attendenceLogServ.GetAsync().Result.Where(x=>x.UserId == HttpContext.Session.GetInt32("UserId"));
             return View(res);
         }
 
+        //Admin can see Employees Details of their choice 
         public IActionResult GetForAdmin()
         {
             var res = attendenceLogServ.GetAsync().Result.Where(x => x.UserId == HttpContext.Session.GetInt32("UserId1"));
             return View(res);
         }
 
+        //All IN's and OUT's for that Day
         public IActionResult Details(int Id)
         {
             int UserId = attendenceLogServ.GetAsync().Result.Where(x => x.Id == Id).Select(x => x.UserId).FirstOrDefault();
@@ -36,6 +40,7 @@ namespace Attendence_Monitoring_System.Controllers
         }
 
 
+        //Editing After Regularization
         public IActionResult Edit()
         {
             Regularization regularization= HttpContext.Session.GetObject<Regularization>("UpdateData");
