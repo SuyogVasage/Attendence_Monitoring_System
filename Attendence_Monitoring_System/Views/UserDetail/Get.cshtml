@@ -25,23 +25,23 @@
             {
                 @if(item.SectionId == 1)
                 {
-                    <tr>
-                        @if(item.KeyName != "Img Path")
+                <tr>
+                    @if (item.KeyName != "Img Path")
                     {
                         <td>
-                        @Html.DisplayFor(modelItem => item.KeyName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Value)
-                    </td>
-                    @if(item.KeyName != "Employee Id")
+                            @Html.DisplayFor(modelItem => item.KeyName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Value)
+                        </td>
+                        @if (item.KeyName != "Employee Id")
                         {
-                              <td>
-                            | @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                             </td>  
+                            <td>
+                                | @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                            </td>
                         }
-                        
-                    }
+
+                    } 
                 </tr>
             }
             }
@@ -67,9 +67,12 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Value)
                     </td>
-                    <td>
-                        | @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                    </td>
+                    @if(item.KeyName == "Fresher" )
+                        {
+                            <td>
+                            | @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                            </td> 
+                        }
                 </tr>
             }
             }

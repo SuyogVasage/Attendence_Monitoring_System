@@ -33,7 +33,7 @@ namespace Attendence_Monitoring_System.Services
                     }
                     break;
                 case "Gender":
-                    if(userDetail.Value !="Male" || userDetail.Value !="Female")
+                    if(userDetail.Value != "Male" && userDetail.Value != "Female")
                     {
                         ErrorMessage = "Gender can be only Male or Female";
                         return false;
@@ -48,9 +48,16 @@ namespace Attendence_Monitoring_System.Services
                     }
                     break;
                 case "Maritial Status":
-                    if (userDetail.Value != "Single" || userDetail.Value != "Married")
+                    if (userDetail.Value != "Single" && userDetail.Value != "Married")
                     {
                         ErrorMessage = "Maritial Status can be only Single or Married";
+                        return false;
+                    }
+                    break;
+                case "Fresher":
+                    if (userDetail.Value != "Yes" && userDetail.Value != "No")
+                    {
+                        ErrorMessage = "Please Enter Yes or No";
                         return false;
                     }
                     break;
@@ -59,7 +66,7 @@ namespace Attendence_Monitoring_System.Services
                     return true;
 
             }
-            if(userDetail.KeyName== "SSC Year of Completion" || userDetail.KeyName == "HSC Year of Completion" || userDetail.KeyName == "Degree Year of Completion")
+            if(userDetail.KeyName == "SSC Year of Completion" || userDetail.KeyName == "HSC Year of Completion" || userDetail.KeyName == "Degree Year of Completion")
             {
                 Regex res4 = new Regex(@"^(19 | 20)\d{ 2}$");
                 if (!res4.IsMatch(Convert.ToString(userDetail.Value)))
