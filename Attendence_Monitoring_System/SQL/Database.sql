@@ -42,6 +42,10 @@ create table AttendenceLog(
 	TotalHours float
 )
 
+Alter table AttendenceLog alter column TotalHours varchar(100);
+
+Alter table Regularization alter column TotalHours varchar(100);
+
 create table Regularization(
 	Id int identity(1,1) primary key,
 	UserId int not null References Users(UserId),
