@@ -8,13 +8,30 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Attendence_Monitoring_System.styles.css" asp-append-version="true" />
     <style>
-        body {
+        /*body {
             background-image:
             url("/Images/back_112.jpg");
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: 100% 100%;
-        }
+        }*/
+        body {
+                background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #00FF00);
+                background-size: 400% 400%;
+                animation: gradient 7s ease infinite;
+            }
+
+            @@-webkit-keyframes gradient {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
     </style>
 </head>
 <body>
