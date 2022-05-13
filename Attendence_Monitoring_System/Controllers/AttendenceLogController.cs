@@ -6,17 +6,26 @@ namespace Attendence_Monitoring_System.Controllers
     {
         private readonly IService<AttendenceLog, int> attendenceLogServ;
         private readonly IService<UserLog, int> userLogserv;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly Attendence_Monitoring_SystemContext ctx;
+        public DataAccess dataAccess;
 
         public AttendenceLogController(IService<AttendenceLog, int> attendenceLogServ, 
-            IService<UserLog, int> userLogserv)
+            IService<UserLog, int> userLogserv, IHttpContextAccessor _httpContextAccessor,
+            Attendence_Monitoring_SystemContext ctx)
         {
             this.attendenceLogServ = attendenceLogServ;
             this.userLogserv = userLogserv;
+            this._httpContextAccessor = _httpContextAccessor;
+            this.ctx = ctx;
+            dataAccess = new DataAccess(_httpContextAccessor, ctx);
         }
 
         //User Can see his Data only
         public IActionResult Get()
         {
+            //Calculating Realtime Attendance when Check IN
+            dataAccess.CalculateRealTime(HttpContext.Session.GetInt32("UserId"));
             var res = attendenceLogServ.GetAsync().Result.Where(x=>x.UserId == HttpContext.Session.GetInt32("UserId"));
             return View(res);
         }
@@ -24,6 +33,8 @@ namespace Attendence_Monitoring_System.Controllers
         //Admin can see Employees Details of their choice 
         public IActionResult GetForAdmin()
         {
+            //Calculating Realtime Attendance Check IN for Admin Selected User
+            dataAccess.CalculateRealTime(HttpContext.Session.GetInt32("UserId1"));
             var res = attendenceLogServ.GetAsync().Result.Where(x => x.UserId == HttpContext.Session.GetInt32("UserId1"));
             return View(res);
         }

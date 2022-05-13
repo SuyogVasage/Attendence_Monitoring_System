@@ -6,6 +6,7 @@ namespace Attendence_Monitoring_System.Services
     {
         private readonly Attendence_Monitoring_SystemContext ctx;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        public static TimeSpan TotalHours;
         public DataAccess(IHttpContextAccessor _httpContextAccessor, Attendence_Monitoring_SystemContext ctx)
         {
             this._httpContextAccessor = _httpContextAccessor;
@@ -87,6 +88,7 @@ namespace Attendence_Monitoring_System.Services
                 string ttt = $"{tt.Hours}:{tt.Minutes}:{tt.Seconds}";
                 TotalTime = TotalTime + tt;
             }
+            TotalHours = TotalTime;
             //Getting only hours, minutes, seconds from TimeSpan
             hr = Convert.ToInt32(TotalTime.Hours);
             min = Convert.ToInt32(TotalTime.Minutes);
@@ -164,6 +166,27 @@ namespace Attendence_Monitoring_System.Services
             return userLog;
         }
 
+        //Calculating Reatime Timer and send to DB when Status is IN
+        public void CalculateRealTime(int? UserId)
+        {
+            var userLogs = ctx.UserLogs.ToList().Where(x => x.UserId == UserId);
+            var lastStatus = userLogs.Where(x=>x.Time.ToShortDateString() == DateTime.Now.ToShortDateString()).Select(x => x.Status).LastOrDefault();
+            if(lastStatus == "IN")
+            {
+                var currentDate = DateTime.Now.ToShortDateString();
+                var lastHours = TotalHours;
+                AttendenceLog attendenceLog = new AttendenceLog();
+                attendenceLog.UserId = Convert.ToInt32(UserId);
+                attendenceLog.TotalHours = $"{lastHours.Hours}:{lastHours.Minutes}:{lastHours.Seconds}";
+                attendenceLog.Date = DateTime.Parse(currentDate);
+                var Ids = ctx.AttendenceLogs.ToList().Where(x => x.Date == DateTime.Parse(currentDate));
+                var Id = Ids.Where(x => x.UserId == UserId).Select(x => x.Id).FirstOrDefault();
+                attendenceLog.Id = Id;
+                var info = ctx.AttendenceLogs.Find(Id);
+                ctx.Entry(info).CurrentValues.SetValues(attendenceLog);
+                ctx.SaveChanges();
+            }
+        }
         //Common Method for Both IN and OUT 
         //To Update or Create Attendence Log in DB
         public void SubcalculateAttendance(string currentDate, TimeSpan totalHours)
@@ -201,21 +224,26 @@ namespace Attendence_Monitoring_System.Services
             string toReturn = "";
             string publickey = "12345678";
             string secretkey = "87654321";
-            byte[] privatekeyByte = { };
-            privatekeyByte = System.Text.Encoding.UTF8.GetBytes(secretkey);
-            byte[] publickeybyte = { };
-            publickeybyte = System.Text.Encoding.UTF8.GetBytes(publickey);
+            //converting to byte for algorithm (ASCII value)
+            byte[] privatekeyByte = System.Text.Encoding.UTF8.GetBytes(secretkey);
+            byte[] publickeybyte = System.Text.Encoding.UTF8.GetBytes(publickey);
+            //Allocate memory for encryption
             MemoryStream ms = null;
+            //Linking memorystream and algorithm 
             CryptoStream cs = null;
-            byte[] inputbyteArray = new byte[textToDecrypt.Replace(" ", "+").Length];
-            inputbyteArray = Convert.FromBase64String(textToDecrypt.Replace(" ", "+"));
+            //password in byte array
+            byte[] inputbyteArray = Convert.FromBase64String(textToDecrypt.Replace(" ", "+"));
+            //Data Encryption Standard
             using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
             {
                 ms = new MemoryStream();
+                //putting keys in cs
                 cs = new CryptoStream(ms, des.CreateDecryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write);
                 cs.Write(inputbyteArray, 0, inputbyteArray.Length);
+                //update and clear data
                 cs.FlushFinalBlock();
                 Encoding encoding = Encoding.UTF8;
+                //getting string of password
                 toReturn = encoding.GetString(ms.ToArray());
             }
             return toReturn;

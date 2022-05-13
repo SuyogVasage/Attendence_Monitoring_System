@@ -8,6 +8,14 @@ namespace Attendence_Monitoring_System.Services
         {
             switch(userDetail.KeyName)
             {
+                case "Email Id":
+                    Regex re = new Regex("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9+.-]+$");
+                    if (!re.IsMatch(Convert.ToString(userDetail.Value)))
+                    {
+                        ErrorMessage = "Please Enter Correct Email ID";
+                        return false;
+                    }
+                    break;
                 case "Name":
                     Regex res = new Regex("^([a-zA-Z]+( [a-zA-Z]+)+)$");
                     if (!res.IsMatch(Convert.ToString(userDetail.Value)))

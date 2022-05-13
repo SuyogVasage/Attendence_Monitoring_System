@@ -8,7 +8,7 @@
 <html>
     <head>
         <title>JavaScript</title>
-        <link rel="stylesheet" href="style.css">
+       @* <link rel="stylesheet" href="style.css">*@
     </head>
     <body onload="timerButton()">
         <div id="stopwatch">
@@ -31,7 +31,7 @@
         {
             <a asp-action="GetEmployee" asp-controller="Employee" class="btn btn-success button4" >Employees</a>
         }
-        <script src="main.js"></script>
+        @*<script src="main.js"></script>*@
     </body>
 </html>
 
@@ -90,7 +90,7 @@ function startTimer() {
 
       $('#IN').prop('disabled', true);
       $('#OUT').prop('disabled', false);
-      //window.location.reload();
+      window.location.reload();
 }
 function stopTimer() {
   if (stoptime == false) {
@@ -160,7 +160,7 @@ button {
 }
 
 .button2 {
-    position: absolute;
+    position:absolute;
     top: 250px;
     left: 595px;
 }
