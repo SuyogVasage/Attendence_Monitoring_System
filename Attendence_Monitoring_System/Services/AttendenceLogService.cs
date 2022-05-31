@@ -17,8 +17,7 @@
 
         async Task<IEnumerable<AttendenceLog>> IService<AttendenceLog, int>.GetAsync()
         {
-            var result = await ctx.AttendenceLogs.ToListAsync();
-            return result;
+            return await ctx.AttendenceLogs.ToListAsync();
         }
 
         Task<AttendenceLog> IService<AttendenceLog, int>.GetAsync(int id)

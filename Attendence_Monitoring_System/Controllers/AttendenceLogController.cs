@@ -57,12 +57,11 @@ namespace Attendence_Monitoring_System.Controllers
             Regularization regularization= HttpContext.Session.GetObject<Regularization>("UpdateData");
             AttendenceLog attendenceLog= new AttendenceLog();
             attendenceLog.TotalHours = regularization.TotalHours;
-            var DateR = regularization.InTime.ToShortDateString();
-            var DateA = attendenceLogServ.GetAsync().Result.Where(x => x.UserId == regularization.UserId).Select(x => x.Date.ToShortDateString());
-            var res = DateA.Where(x=>x.Equals(DateR)).FirstOrDefault();
+            var regularizationDate = regularization.InTime.ToShortDateString();
+            var dateList = attendenceLogServ.GetAsync().Result.Where(x => x.UserId == regularization.UserId).Select(x => x.Date.ToShortDateString());
+            var res = dateList.Where(x=>x.Equals(regularizationDate)).FirstOrDefault();
             attendenceLog.Date = DateTime.Parse(res);
-            var userID = regularization.UserId;
-            attendenceLog.UserId = Convert.ToInt32(userID);
+            attendenceLog.UserId = Convert.ToInt32(regularization.UserId);
             attendenceLog.Id = attendenceLogServ.GetAsync().Result.Where(x=>x.Date == attendenceLog.Date).Select(x=>x.Id).FirstOrDefault();
             var result = attendenceLogServ.UpdateAsync(attendenceLog.Id, attendenceLog);
             return RedirectToAction("Get", "Regularization");

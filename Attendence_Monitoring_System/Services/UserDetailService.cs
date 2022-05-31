@@ -16,14 +16,12 @@
 
         async Task<IEnumerable<UserDetail>> IService<UserDetail, int>.GetAsync()
         {
-            var result = await ctx.UserDetails.ToListAsync();
-            return result;
+            return await ctx.UserDetails.ToListAsync();
         }
 
         async Task<UserDetail> IService<UserDetail, int>.GetAsync(int id)
         {
-            var result = await ctx.UserDetails.FindAsync(id);
-            return result;
+            return await ctx.UserDetails.FindAsync(id);
         }
 
         async Task<UserDetail> IService<UserDetail, int>.UpdateAsync(int id, UserDetail entity)
@@ -34,11 +32,6 @@
                 return null;
             }
             ctx.Entry(info).CurrentValues.SetValues(entity);
-            //info.Id = entity.Id;
-            //info.SectionId = entity.SectionId;
-            //info.UserId = entity.UserId;
-            //info.KeyName = entity.KeyName;
-            //info.Value = entity.Value;
             await ctx.SaveChangesAsync();
             return info;
         }

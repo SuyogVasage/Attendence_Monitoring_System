@@ -16,8 +16,7 @@
 
         async Task<IEnumerable<Regularization>> IService<Regularization, int>.GetAsync()
         {
-            var result = await ctx.Regularizations.ToListAsync();
-            return result;
+            return await ctx.Regularizations.ToListAsync();
         }
 
         Task<Regularization> IService<Regularization, int>.GetAsync(int id)

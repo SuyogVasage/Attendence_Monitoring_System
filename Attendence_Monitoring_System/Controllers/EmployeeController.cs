@@ -42,7 +42,4 @@ namespace Attendence_Monitoring_System.Controllers
             ViewBag.Options = items;
         }
     }
-
-
-   
 }

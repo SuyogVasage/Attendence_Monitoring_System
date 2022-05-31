@@ -16,14 +16,12 @@
 
         async Task<IEnumerable<UserLog>> IService<UserLog, int>.GetAsync()
         {
-            var result = await ctx.UserLogs.ToListAsync();
-            return result;
+            return await ctx.UserLogs.ToListAsync(); ;
         }
 
         async Task<UserLog> IService<UserLog, int>.GetAsync(int id)
         {
-            var result = await ctx.UserLogs.FindAsync(id);
-            return result;
+            return await ctx.UserLogs.FindAsync(id); ;
         }
 
         Task<UserLog> IService<UserLog, int>.UpdateAsync(int id, UserLog entity)

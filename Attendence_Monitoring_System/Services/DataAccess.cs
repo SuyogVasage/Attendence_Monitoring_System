@@ -171,7 +171,7 @@ namespace Attendence_Monitoring_System.Services
             return userLog;
         }
 
-        //Calculating Reatime Timer and send to DB when Status is IN
+        //Calculating Realtime Timer and send to DB when Status is IN
         public void CalculateRealTime(int? UserId)
         {
             var userLogs = ctx.UserLogs.ToList().Where(x => x.UserId == UserId);
@@ -226,8 +226,6 @@ namespace Attendence_Monitoring_System.Services
         //Decrypting the Password
         public string DecryptAsync(string text)
         {
-            var textToDecrypt = text;
-            string toReturn = "";
             string publickey = "12345678";
             string secretkey = "87654321";
             //converting to byte for algorithm (ASCII value)
@@ -238,43 +236,18 @@ namespace Attendence_Monitoring_System.Services
             //Linking memorystream and algorithm 
             CryptoStream cs = null;
             //password in byte array
-            byte[] inputbyteArray = Convert.FromBase64String(textToDecrypt.Replace(" ", "+"));
+            byte[] inputbyteArray = Convert.FromBase64String(text.Replace(" ", "+"));
             //Data Encryption Standard
-            using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
-            {
-                ms = new MemoryStream();
-                //putting keys in cs
-                cs = new CryptoStream(ms, des.CreateDecryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write);
-                cs.Write(inputbyteArray, 0, inputbyteArray.Length);
-                //update and clear data
-                cs.FlushFinalBlock();
-                Encoding encoding = Encoding.UTF8;
-                //getting string of password
-                toReturn = encoding.GetString(ms.ToArray());
-            }
-            return toReturn;
+            DESCryptoServiceProvider des = new DESCryptoServiceProvider();
+            ms = new MemoryStream();
+            //putting keys in cs
+            cs = new CryptoStream(ms, des.CreateDecryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write);
+            cs.Write(inputbyteArray, 0, inputbyteArray.Length);
+            //update and clear data
+            cs.FlushFinalBlock();
+            Encoding encoding = Encoding.UTF8;
+            //getting string of password
+            return encoding.GetString(ms.ToArray()); 
         }
-
-        //public bool ValidateSearchString(string searchOption, string searchString)
-        //{
-        //    if (searchOption == "Name")
-        //    {
-        //        Regex re = new Regex("a-zA-Z");
-        //        if (!re.IsMatch(Convert.ToString(searchString)))
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    if (searchOption == "EmpId")
-        //    {
-        //        Regex re = new Regex("^[0 - 9] *$");
-        //        if (!re.IsMatch(Convert.ToString(searchString)))
-        //        {
-        //            return false;
-        //        }
-
-        //    }
-        //    return true;
-        //}
     }
 }

@@ -67,12 +67,8 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Value)
                     </td>
-                    @if(item.KeyName == "Fresher" )
-                        {
-                            <td>
-                            | @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                            </td> 
-                        }
+                    <td>
+                    </td> 
                 </tr>
             }
             }
@@ -106,11 +102,6 @@
  
         </tbody>
     </table>
-   @* <form asp-action="Get">
-        <div class="form-group">
-                <input type="submit" value="Edit" class="btn btn-primary" />
-            </div>
-    </form>*@
     <br>
     <a asp-action="Create" asp-controller="UserLog" class="btn btn-primary">Back</a>
   

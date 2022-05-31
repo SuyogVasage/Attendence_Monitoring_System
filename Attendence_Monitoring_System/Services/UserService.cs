@@ -15,8 +15,7 @@
 
         async Task<IEnumerable<User>> IService<User, int>.GetAsync()
         {
-            var result = await ctx.Users.ToListAsync();
-            return result;
+            return await ctx.Users.ToListAsync();
         }
 
         Task<User> IService<User, int>.GetAsync(int id)
