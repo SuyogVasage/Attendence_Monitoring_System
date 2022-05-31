@@ -20,7 +20,10 @@ namespace Attendence_Monitoring_System.Controllers
         {
             var empList = dataAccess.EmpController(SearchOption, SearchString);
             ListItem();
-            ViewBag.ImgPath = empList.users.Where(x => x.KeyName == "Img Path").Select(x => x.Value).FirstOrDefault();
+            if (empList.users != null)
+            {
+                ViewBag.ImgPath = empList.users.Where(x => x.KeyName == "Img Path").Select(x => x.Value).FirstOrDefault();
+            }
             return View(empList);
         }
 

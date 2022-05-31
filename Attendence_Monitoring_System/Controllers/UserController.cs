@@ -7,7 +7,7 @@ namespace Attendence_Monitoring_System.Controllers
         private readonly IService<User, int> userServ;
         private readonly Attendence_Monitoring_SystemContext ctx;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public DataAccess dataAccess;
+        private DataAccess dataAccess;
 
         public UserController(IService<User, int> userServ, Attendence_Monitoring_SystemContext ctx, IHttpContextAccessor _httpContextAccessor)
         {
@@ -24,7 +24,7 @@ namespace Attendence_Monitoring_System.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(User user)
+        public IActionResult Login(User user)
         {
             user.Email = user.Email.ToLower();
             var userData = userServ.GetAsync().Result.Where(x => x.Email == user.Email).FirstOrDefault();
@@ -51,7 +51,7 @@ namespace Attendence_Monitoring_System.Controllers
             }
         }
 
-        public async Task<IActionResult> Logout()
+        public IActionResult Logout()
         {
             //Simply Redirecting to Login Page
             return RedirectToAction("Login");

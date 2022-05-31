@@ -21,7 +21,7 @@ namespace Attendence_Monitoring_System.Controllers
             dataAccess = new DataAccess(_httpContextAccessor, ctx);
         }
 
-        public IActionResult Create(int UserID)
+        public IActionResult Create()
         {
             UserLog userLog = new UserLog();
             //Calculating Time for Timer on View

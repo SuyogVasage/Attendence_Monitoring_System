@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.RegularExpressions;
 
 namespace Attendence_Monitoring_System.Services
 {
     public class DataAccess
     {
         private readonly Attendence_Monitoring_SystemContext ctx;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        public IHttpContextAccessor _httpContextAccessor;
         public static TimeSpan TotalHours;
         public DataAccess(IHttpContextAccessor _httpContextAccessor, Attendence_Monitoring_SystemContext ctx)
         {
@@ -15,17 +16,24 @@ namespace Attendence_Monitoring_System.Services
         //From EmployeeController
         public EmployeeList EmpController(string SearchOption, string SearchString)
         {
+            EmployeeList empList = new EmployeeList();
+            empList.searchOption = SearchOption;
+            empList.searchString = SearchString;
             IEnumerable<UserDetail> res1 = new List<UserDetail>();
             switch (SearchOption)
             {
                 case "Name":
+                    if (!System.Text.RegularExpressions.Regex.IsMatch(SearchString, @"^[A-Za-z.\s_-]+$"))
+                    {
+                        return empList;
+                    }
                     int UserId = ctx.UserDetails.ToList().Where(e => e.Value.Contains(SearchString)).Select(x => x.UserId).FirstOrDefault();
                     res1 = ctx.UserDetails.ToList().Where(e => e.UserId == UserId);
                     break;
                 case "EmpId":
                     if (!System.Text.RegularExpressions.Regex.IsMatch(SearchString, "^[0-9]*$"))
                     {
-                        return null;
+                        return empList;
                     }
                     res1 = ctx.UserDetails.ToList().Where(e => e.UserId == Convert.ToInt32(SearchString));
                     break;
@@ -33,10 +41,7 @@ namespace Attendence_Monitoring_System.Services
 
             int UserId1 = res1.Select(x => x.UserId).FirstOrDefault();
             _httpContextAccessor.HttpContext.Session.SetInt32("UserId1", UserId1);
-            EmployeeList empList = new EmployeeList();
             empList.users = res1;
-            empList.searchOption = SearchOption;
-            empList.searchString = SearchString;
             return empList;
         }
 
@@ -187,6 +192,7 @@ namespace Attendence_Monitoring_System.Services
                 ctx.SaveChanges();
             }
         }
+
         //Common Method for Both IN and OUT 
         //To Update or Create Attendence Log in DB
         public void SubcalculateAttendance(string currentDate, TimeSpan totalHours)
@@ -249,5 +255,26 @@ namespace Attendence_Monitoring_System.Services
             return toReturn;
         }
 
+        //public bool ValidateSearchString(string searchOption, string searchString)
+        //{
+        //    if (searchOption == "Name")
+        //    {
+        //        Regex re = new Regex("a-zA-Z");
+        //        if (!re.IsMatch(Convert.ToString(searchString)))
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    if (searchOption == "EmpId")
+        //    {
+        //        Regex re = new Regex("^[0 - 9] *$");
+        //        if (!re.IsMatch(Convert.ToString(searchString)))
+        //        {
+        //            return false;
+        //        }
+
+        //    }
+        //    return true;
+        //}
     }
 }

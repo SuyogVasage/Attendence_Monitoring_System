@@ -12,7 +12,6 @@ namespace Attendence_Monitoring_System.Models
         public string? TotalHours { get; set; }
         public string? Status { get; set; }
         public string? Reason { get; set; }
-
         public virtual User User { get; set; } = null!;
     }
 }
