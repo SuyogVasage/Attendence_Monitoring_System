@@ -232,16 +232,14 @@ namespace Attendence_Monitoring_System.Services
             byte[] privatekeyByte = System.Text.Encoding.UTF8.GetBytes(secretkey);
             byte[] publickeybyte = System.Text.Encoding.UTF8.GetBytes(publickey);
             //Allocate memory for encryption
-            MemoryStream ms = null;
-            //Linking memorystream and algorithm 
-            CryptoStream cs = null;
+            MemoryStream ms = new MemoryStream();            
             //password in byte array
             byte[] inputbyteArray = Convert.FromBase64String(text.Replace(" ", "+"));
             //Data Encryption Standard
             DESCryptoServiceProvider des = new DESCryptoServiceProvider();
-            ms = new MemoryStream();
+            //Linking memorystream and algorithm 
             //putting keys in cs
-            cs = new CryptoStream(ms, des.CreateDecryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write);
+            CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write);
             cs.Write(inputbyteArray, 0, inputbyteArray.Length);
             //update and clear data
             cs.FlushFinalBlock();
