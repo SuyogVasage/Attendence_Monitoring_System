@@ -12,7 +12,6 @@ namespace Attendence_Monitoring_System.CustomSession
         public static T GetObject<T>(this ISession session, string key)
         {
             // Get the Object with deserialization
-
             string value = session.GetString(key);
             if (value == null)
                 // the default is an oprtaor to provide default instance of th type
@@ -20,7 +19,6 @@ namespace Attendence_Monitoring_System.CustomSession
 
             // get the object from the session
             return JsonSerializer.Deserialize<T>(value);
-
         }
     }
 }

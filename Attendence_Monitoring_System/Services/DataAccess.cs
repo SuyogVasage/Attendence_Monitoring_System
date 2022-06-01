@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Attendence_Monitoring_System.Services
 {
-    public class DataAccess
+    public class DataAccess : IDataAccess
     {
         private readonly Attendence_Monitoring_SystemContext ctx;
         public IHttpContextAccessor _httpContextAccessor;

@@ -6,26 +6,21 @@ namespace Attendence_Monitoring_System.Controllers
     {
         private readonly IService<AttendenceLog, int> attendenceLogServ;
         private readonly IService<UserLog, int> userLogserv;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly Attendence_Monitoring_SystemContext ctx;
-        public DataAccess dataAccess;
+        private readonly IDataAccess iDataAccess;
 
         public AttendenceLogController(IService<AttendenceLog, int> attendenceLogServ, 
-            IService<UserLog, int> userLogserv, IHttpContextAccessor _httpContextAccessor,
-            Attendence_Monitoring_SystemContext ctx)
+            IService<UserLog, int> userLogserv, IDataAccess iDataAccess)
         {
             this.attendenceLogServ = attendenceLogServ;
             this.userLogserv = userLogserv;
-            this._httpContextAccessor = _httpContextAccessor;
-            this.ctx = ctx;
-            dataAccess = new DataAccess(_httpContextAccessor, ctx);
+            this.iDataAccess = iDataAccess;
         }
 
         //User Can see his Data only
         public IActionResult Get()
         {
             //Calculating Realtime Attendance when Check IN
-            dataAccess.CalculateRealTime(HttpContext.Session.GetInt32("UserId"));
+            iDataAccess.CalculateRealTime(HttpContext.Session.GetInt32("UserId"));
             var res = attendenceLogServ.GetAsync().Result.Where(x=>x.UserId == HttpContext.Session.GetInt32("UserId"));
             return View(res);
         }
@@ -34,7 +29,7 @@ namespace Attendence_Monitoring_System.Controllers
         public IActionResult GetForAdmin()
         {
             //Calculating Realtime Attendance Check IN for Admin Selected User
-            dataAccess.CalculateRealTime(HttpContext.Session.GetInt32("UserId1"));
+            iDataAccess.CalculateRealTime(HttpContext.Session.GetInt32("UserId1"));
             var res = attendenceLogServ.GetAsync().Result.Where(x => x.UserId == HttpContext.Session.GetInt32("UserId1"));
             return View(res);
         }

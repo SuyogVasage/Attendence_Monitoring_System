@@ -1,24 +1,19 @@
 ﻿
-
 namespace Attendence_Monitoring_System.Controllers
 {
 
     public class EmployeeController : Controller
     {
-        private readonly Attendence_Monitoring_SystemContext ctx;
-        public DataAccess dataAccess;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public EmployeeController(IHttpContextAccessor _httpContextAccessor, Attendence_Monitoring_SystemContext ctx)
+        private readonly IDataAccess iDataAccess;
+        public EmployeeController(IDataAccess iDataAccess)
         {
-            this.ctx = ctx;
-            this._httpContextAccessor = _httpContextAccessor;
-            dataAccess = new DataAccess(_httpContextAccessor,ctx);
+            this.iDataAccess = iDataAccess;
         }
 
         //These two methods will display required employee details for Admin
         public IActionResult ViewEmployee(string SearchOption, string SearchString)
         {
-            var empList = dataAccess.EmpController(SearchOption, SearchString);
+            var empList = iDataAccess.EmpController(SearchOption, SearchString);
             ListItem();
             if (empList.users != null)
             {

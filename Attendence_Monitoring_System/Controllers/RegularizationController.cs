@@ -41,7 +41,9 @@ namespace Attendence_Monitoring_System.Controllers
             var item = regularizationServ.GetAsync().Result.Where(x=>x.Id ==Id).FirstOrDefault();
             item.Status = "Approved";
             var result = regularizationServ.UpdateAsync(Id, item);
+
             HttpContext.Session.SetObject<Regularization>("UpdateData", item);
+
             return RedirectToAction("Edit", "AttendenceLog");
         }
 

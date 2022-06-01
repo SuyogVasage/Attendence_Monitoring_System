@@ -6,7 +6,7 @@ namespace Attendence_Monitoring_System.Controllers
     {
         private readonly IService<UserDetail, int> userDetailServ;
         private readonly Attendence_Monitoring_SystemContext ctx;
-        public ProfileValidation profileValidation;
+        private ProfileValidation profileValidation;
         public UserDetailController(IService<UserDetail, int> userDetailServ, Attendence_Monitoring_SystemContext ctx)
         {
             this.userDetailServ = userDetailServ;

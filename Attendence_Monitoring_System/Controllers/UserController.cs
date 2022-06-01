@@ -1,20 +1,15 @@
-﻿using Microsoft.AspNetCore.Authentication;
-
+﻿
 namespace Attendence_Monitoring_System.Controllers
 {
     public class UserController : Controller
     {
         private readonly IService<User, int> userServ;
-        private readonly Attendence_Monitoring_SystemContext ctx;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private DataAccess dataAccess;
+        private readonly IDataAccess iDataAccess;
 
-        public UserController(IService<User, int> userServ, Attendence_Monitoring_SystemContext ctx, IHttpContextAccessor _httpContextAccessor)
+        public UserController(IService<User, int> userServ, IDataAccess iDataAccess)
         {
             this.userServ = userServ;
-            this.ctx = ctx;
-            this._httpContextAccessor = _httpContextAccessor;
-            dataAccess = new DataAccess(_httpContextAccessor, ctx);
+            this.iDataAccess = iDataAccess;
         }
 
         public IActionResult Login()
@@ -34,7 +29,7 @@ namespace Attendence_Monitoring_System.Controllers
                 return View(user);
             }
             //Decrypting Password from DB
-            string decryptedPassword = dataAccess.DecryptAsync(userData.Password);
+            string decryptedPassword = iDataAccess.DecryptAsync(userData.Password);
             if (user.Password == decryptedPassword)
             {
                 //Setting RoleId for Reference
