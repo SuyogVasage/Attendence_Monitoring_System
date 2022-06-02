@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-
+﻿
 namespace Attendence_Monitoring_System.Controllers
 {
     public class UserLogController : Controller

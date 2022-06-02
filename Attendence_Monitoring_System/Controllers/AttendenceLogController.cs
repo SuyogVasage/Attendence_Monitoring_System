@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+﻿
 namespace Attendence_Monitoring_System.Controllers
 {
     public class AttendenceLogController : Controller
@@ -20,7 +19,7 @@ namespace Attendence_Monitoring_System.Controllers
         public IActionResult Get()
         {
             //Calculating Realtime Attendance when Check IN
-            iDataAccess.CalculateRealTime(HttpContext.Session.GetInt32("UserId"));
+            iDataAccess.CalculateRealTime(HttpContext.Session.GetInt32("UserId"), 1);
             var res = attendenceLogServ.GetAsync().Result.Where(x=>x.UserId == HttpContext.Session.GetInt32("UserId"));
             return View(res);
         }
@@ -29,7 +28,7 @@ namespace Attendence_Monitoring_System.Controllers
         public IActionResult GetForAdmin()
         {
             //Calculating Realtime Attendance Check IN for Admin Selected User
-            iDataAccess.CalculateRealTime(HttpContext.Session.GetInt32("UserId1"));
+            iDataAccess.CalculateRealTime(HttpContext.Session.GetInt32("UserId1"), 0);
             var res = attendenceLogServ.GetAsync().Result.Where(x => x.UserId == HttpContext.Session.GetInt32("UserId1"));
             return View(res);
         }
@@ -39,10 +38,10 @@ namespace Attendence_Monitoring_System.Controllers
         {
             int UserId = attendenceLogServ.GetAsync().Result.Where(x => x.Id == Id).Select(x => x.UserId).FirstOrDefault();
             var Date = attendenceLogServ.GetAsync().Result.Where(x => x.Id == Id).Select(x => x.Date.ToShortDateString()).FirstOrDefault();
-            var res = userLogserv.GetAsync().Result.Where(x => x.UserId == UserId);
-            var res1 = res.Where(x=> x.Time.ToShortDateString() == Date);
+            var userLogs = userLogserv.GetAsync().Result.Where(x => x.UserId == UserId);
+            var userLog = userLogs.Where(x=> x.Time.ToShortDateString() == Date);
             ViewBag.RoleId = HttpContext.Session.GetInt32("RoleId");
-            return View(res1);
+            return View(userLog);
         }
 
 

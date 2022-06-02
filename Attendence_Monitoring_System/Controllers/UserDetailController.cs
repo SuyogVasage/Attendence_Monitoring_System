@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+﻿
 namespace Attendence_Monitoring_System.Controllers
 {
     public class UserDetailController : Controller

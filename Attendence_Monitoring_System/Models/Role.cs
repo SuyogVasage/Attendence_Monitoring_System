@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace Attendence_Monitoring_System.Models
 {
     public partial class Role

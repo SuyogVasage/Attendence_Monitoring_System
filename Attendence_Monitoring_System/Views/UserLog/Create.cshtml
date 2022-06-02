@@ -8,7 +8,6 @@
 <html>
     <head>
         <title>JavaScript</title>
-       @* <link rel="stylesheet" href="style.css">*@
     </head>
     <body onload="timerButton()">
         <div id="stopwatch">
@@ -31,18 +30,12 @@
         {
             <a asp-action="GetEmployee" asp-controller="Employee" class="btn btn-success button4" >Employees</a>
         }
-        @*<script src="main.js"></script>*@
     </body>
 </html>
 
 
 <script>
     const timer = document.getElementById('stopwatch');
-    //window.location.reload();
-//    setTimeout(function(){
-//   window.location.reload(1);
-//}  , 5000);
-    debugger;
     var stoptime = false;
      var hr = 0; 
      var min = 0;

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Text.RegularExpressions;
-
+﻿
 namespace Attendence_Monitoring_System.Services
 {
     public class DataAccess : IDataAccess
@@ -172,17 +170,26 @@ namespace Attendence_Monitoring_System.Services
         }
 
         //Calculating Realtime Timer and send to DB when Status is IN
-        public void CalculateRealTime(int? UserId)
+        public void CalculateRealTime(int? UserId,int flag)
         {
             var userLogs = ctx.UserLogs.ToList().Where(x => x.UserId == UserId);
             var lastStatus = userLogs.Where(x=>x.Time.ToShortDateString() == DateTime.Now.ToShortDateString()).Select(x => x.Status).LastOrDefault();
             if(lastStatus == "IN")
             {
-                var currentDate = DateTime.Now.ToShortDateString();
-                var lastHours = TotalHours;
                 AttendenceLog attendenceLog = new AttendenceLog();
+                var currentDate = DateTime.Now.ToShortDateString();
+                if(flag == 1)
+                {
+                    var lastHours = TotalHours;
+                    attendenceLog.TotalHours = $"{lastHours.Hours}:{lastHours.Minutes}:{lastHours.Seconds}";
+                }
+                else
+                {
+                    var res3 = ctx.AttendenceLogs.ToList().Where(x => x.UserId == UserId && x.Date.ToShortDateString() == DateTime.Now.ToShortDateString()).Select(x=>x.TotalHours).FirstOrDefault();
+                    attendenceLog.TotalHours = res3;
+                }
+                
                 attendenceLog.UserId = Convert.ToInt32(UserId);
-                attendenceLog.TotalHours = $"{lastHours.Hours}:{lastHours.Minutes}:{lastHours.Seconds}";
                 attendenceLog.Date = DateTime.Parse(currentDate);
                 var Ids = ctx.AttendenceLogs.ToList().Where(x => x.Date == DateTime.Parse(currentDate));
                 var Id = Ids.Where(x => x.UserId == UserId).Select(x => x.Id).FirstOrDefault();

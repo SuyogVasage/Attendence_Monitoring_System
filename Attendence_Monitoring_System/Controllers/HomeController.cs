@@ -1,7 +1,4 @@
-﻿using Attendence_Monitoring_System.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-
+﻿
 namespace Attendence_Monitoring_System.Controllers
 {
     public class HomeController : Controller
